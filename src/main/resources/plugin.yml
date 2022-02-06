@@ -1,0 +1,26 @@
+main: de.timesnake.extension.proxy.main.ExProxy
+version: 1.0
+name: extension-proxy
+author: Mn
+depends: [ basic-proxy ]
+
+commands:
+  server:
+  lobby:
+  hub:
+  leave:
+  menu:
+
+  msg:
+  tell:
+  message:
+  pm:
+  r:
+  msgspy:
+  service:
+  mail:
+  broadcast:
+  warn:
+
+  ping:
+     
