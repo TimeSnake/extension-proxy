@@ -9,7 +9,7 @@ import de.timesnake.library.basic.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
-import net.md_5.bungee.BungeeTitle;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import java.util.ArrayList;
@@ -66,9 +66,9 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
 
         if (type.equals(Type.CUSTOM)) {
             String message = args.toMessage(1);
-            user.getPlayer().sendTitle(new BungeeTitle().title(new TextComponent("§cWarning")).subTitle(new TextComponent(message)));
+            user.getPlayer().sendTitle(ProxyServer.getInstance().createTitle().title(new TextComponent("§cWarning")).subTitle(new TextComponent(message)));
         } else {
-            user.getPlayer().sendTitle(new BungeeTitle().title(new TextComponent("§cWarning")).subTitle(new TextComponent(type.getText())));
+            user.getPlayer().sendTitle(ProxyServer.getInstance().createTitle().title(new TextComponent("§cWarning")).subTitle(new TextComponent(type.getText())));
         }
 
         sender.sendPluginMessage(ChatColor.PERSONAL + "Warned player " + user.getChatName());
