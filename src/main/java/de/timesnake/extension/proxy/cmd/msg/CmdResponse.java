@@ -7,7 +7,11 @@ import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.channel.api.message.ChannelUserMessage;
 import de.timesnake.extension.proxy.chat.Plugin;
-import de.timesnake.library.basic.util.cmd.*;
+import de.timesnake.library.extension.util.chat.Chat;
+import de.timesnake.library.extension.util.cmd.Arguments;
+import de.timesnake.library.extension.util.cmd.ChatDivider;
+import de.timesnake.library.extension.util.cmd.CommandListener;
+import de.timesnake.library.extension.util.cmd.ExCommand;
 
 import java.util.List;
 
@@ -29,7 +33,7 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
 
                         Msg.lastPrivateMessageSender.put(receiver, sender.getUser());
                     } else {
-                        sender.sendPluginMessage(ChatColor.WARNING + "No open private chat " + Network.getChat().getMessageCode("H", 2200, Plugin.EX_PROXY));
+                        sender.sendPluginMessage(ChatColor.WARNING + "No open private chat " + Chat.getMessageCode("H", 2200, Plugin.EX_PROXY));
                     }
                 }
             }
