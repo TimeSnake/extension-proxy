@@ -8,7 +8,7 @@ import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.user.DbUserMail;
 import de.timesnake.extension.proxy.chat.Plugin;
-import de.timesnake.library.basic.util.cmd.ChatDivider;
+import de.timesnake.library.extension.util.cmd.ChatDivider;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
