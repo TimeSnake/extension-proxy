@@ -5,7 +5,7 @@ import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.ChatColor;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
-import de.timesnake.extension.proxy.chat.Plugin;
+import de.timesnake.library.basic.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
@@ -24,7 +24,7 @@ public class CmdLobby implements CommandListener<Sender, Argument> {
                     User user = sender.getUser();
                     ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(user.getDbUser().getServerLobby().getName());
                     user.connect(serverInfo);
-                    user.sendPluginMessage(Plugin.EX_PROXY, ChatColor.PERSONAL + "Switched to lobby " + ChatColor.VALUE + serverInfo.getName());
+                    user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to lobby " + ChatColor.VALUE + serverInfo.getName());
                 }
             }
         } else if (args.isLengthEquals(1, true)) {
@@ -33,7 +33,7 @@ public class CmdLobby implements CommandListener<Sender, Argument> {
                     User user = args.get(0).toUser();
                     ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(user.getDbUser().getServerLobby().getName());
                     user.connect(serverInfo);
-                    user.sendPluginMessage(Plugin.EX_PROXY, ChatColor.PERSONAL + "Switched to lobby " + ChatColor.VALUE + serverInfo.getName());
+                    user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to lobby " + ChatColor.VALUE + serverInfo.getName());
                     sender.sendPluginMessage(ChatColor.PERSONAL + "Switched player " + ChatColor.VALUE + user.getChatName() + ChatColor.PERSONAL + " to lobby " + ChatColor.VALUE + serverInfo.getName());
                 }
             }
