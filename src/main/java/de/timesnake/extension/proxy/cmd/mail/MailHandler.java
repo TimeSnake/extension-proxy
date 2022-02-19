@@ -2,12 +2,12 @@ package de.timesnake.extension.proxy.cmd.mail;
 
 import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.ChatColor;
+import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.user.DbUserMail;
-import de.timesnake.extension.proxy.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;

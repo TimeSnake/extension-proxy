@@ -3,9 +3,9 @@ package de.timesnake.extension.proxy.cmd.server;
 import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.ChatColor;
+import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
-import de.timesnake.extension.proxy.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
@@ -27,7 +27,7 @@ public class CmdServer implements CommandListener<Sender, Argument> {
                             ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(args.get(0).getString());
                             user.getPlayer().connect(serverInfo);
                             user.setTask(null);
-                            user.sendPluginMessage(Plugin.EX_PROXY, ChatColor.PERSONAL + "Switched to server " + ChatColor.VALUE + serverInfo.getName());
+                            user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " + ChatColor.VALUE + serverInfo.getName());
                         }
                     }
                 } else if (args.isLengthEquals(2, true)) {
@@ -37,7 +37,7 @@ public class CmdServer implements CommandListener<Sender, Argument> {
                             ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(args.get(0).getString());
                             user.getPlayer().connect(serverInfo);
                             user.setTask(null);
-                            user.sendPluginMessage(Plugin.EX_PROXY, ChatColor.PERSONAL + "Switched to server " + ChatColor.VALUE + serverInfo.getName());
+                            user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " + ChatColor.VALUE + serverInfo.getName());
                             sender.sendPluginMessage(ChatColor.PERSONAL + "Switched player " + ChatColor.VALUE + user.getChatName() + ChatColor.PERSONAL + " to server " + ChatColor.VALUE + serverInfo.getName());
                         }
                     }
