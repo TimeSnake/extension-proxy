@@ -23,10 +23,16 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
                     User receiver = args.get(0).toUser();
                     String msg = args.toMessage(1);
 
-                    sender.sendMessage(receiver.getChatName() + ChatDivider.COLORED_OUT + ChatColor.VALUE + msg);
+                    if (!sender.getUser().equals(receiver)) {
+                        sender.sendMessage(receiver.getChatName() + ChatDivider.COLORED_OUT + ChatColor.VALUE + msg);
 
-                    receiver.sendMessage(sender.getUser().getChatName() + ChatDivider.COLORED_IN + ChatColor.VALUE + msg);
-                    receiver.playSound(ChannelUserMessage.Sound.PLING);
+                        receiver.sendMessage(sender.getUser().getChatName() + ChatDivider.COLORED_IN + ChatColor.VALUE + msg);
+                        receiver.playSound(ChannelUserMessage.Sound.PLING);
+                    } else {
+                        sender.sendMessage(receiver.getChatName() + ChatDivider.COLORED_OUT_IN + ChatColor.VALUE + msg);
+                        receiver.playSound(ChannelUserMessage.Sound.PLING);
+                    }
+
 
                     Msg.sendMessageToListeners(sender.getUser(), receiver, msg);
                     Msg.lastPrivateMessageSender.put(sender.getUser(), receiver);

@@ -25,11 +25,16 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
                     if (Msg.lastPrivateMessageSender.containsKey(sender.getUser())) {
                         User receiver = Msg.lastPrivateMessageSender.get(sender.getUser());
                         String msg = args.toMessage();
-                        sender.sendMessage(receiver.getChatName() + ChatDivider.COLORED_OUT + ChatColor.VALUE + msg);
 
-                        receiver.sendMessage(sender.getUser().getChatName() + ChatDivider.COLORED_IN + ChatColor.VALUE + msg);
-                        receiver.playSound(ChannelUserMessage.Sound.PLING);
-                        Msg.sendMessageToListeners(sender.getUser(), receiver, msg);
+                        if (!sender.getUser().equals(receiver)) {
+                            sender.sendMessage(receiver.getChatName() + ChatDivider.COLORED_OUT + ChatColor.VALUE + msg);
+
+                            receiver.sendMessage(sender.getUser().getChatName() + ChatDivider.COLORED_IN + ChatColor.VALUE + msg);
+                            receiver.playSound(ChannelUserMessage.Sound.PLING);
+                        } else {
+                            sender.sendMessage(receiver.getChatName() + ChatDivider.COLORED_OUT_IN + ChatColor.VALUE + msg);
+                            receiver.playSound(ChannelUserMessage.Sound.PLING);
+                        }
 
                         Msg.lastPrivateMessageSender.put(receiver, sender.getUser());
                     } else {
