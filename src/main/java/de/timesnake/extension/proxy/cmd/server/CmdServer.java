@@ -27,7 +27,8 @@ public class CmdServer implements CommandListener<Sender, Argument> {
                             ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(args.get(0).getString());
                             user.getPlayer().connect(serverInfo);
                             user.setTask(null);
-                            user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " + ChatColor.VALUE + serverInfo.getName());
+                            user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " +
+                                    ChatColor.VALUE + serverInfo.getName());
                         }
                     }
                 } else if (args.isLengthEquals(2, true)) {
@@ -37,8 +38,10 @@ public class CmdServer implements CommandListener<Sender, Argument> {
                             ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(args.get(0).getString());
                             user.getPlayer().connect(serverInfo);
                             user.setTask(null);
-                            user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " + ChatColor.VALUE + serverInfo.getName());
-                            sender.sendPluginMessage(ChatColor.PERSONAL + "Switched player " + ChatColor.VALUE + user.getChatName() + ChatColor.PERSONAL + " to server " + ChatColor.VALUE + serverInfo.getName());
+                            user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " +
+                                    ChatColor.VALUE + serverInfo.getName());
+                            sender.sendPluginMessage(ChatColor.PERSONAL + "Switched player " + ChatColor.VALUE +
+                                    user.getChatName() + ChatColor.PERSONAL + " to server " + ChatColor.VALUE + serverInfo.getName());
                         }
                     }
                 } else {

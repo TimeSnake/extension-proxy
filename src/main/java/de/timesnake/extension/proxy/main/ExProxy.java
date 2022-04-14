@@ -29,17 +29,31 @@ public class ExProxy extends Plugin {
 
         PluginManager pm = ProxyServer.getInstance().getPluginManager();
 
-        Network.getCommandHandler().addCommand(this, pm, "service", new CmdService(), de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, pm, "msgspy", new CmdMsgSpy(), de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, pm, "msg", List.of("tell", "message", "pm"), new CmdMsg(), de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, pm, "r", List.of("response"), new CmdResponse(), de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, pm, "force", List.of("sudo"), new CmdForce(), de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, pm, "lobby", List.of("hub", "menu", "leave"), new CmdLobby(), de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, pm, "server", new CmdServer(), de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, pm, "mail", new MailCmd(), de.timesnake.basic.proxy.util.chat.Plugin.MAILS);
-        Network.getCommandHandler().addCommand(this, pm, "broadcast", new BroadcastCmd(), de.timesnake.library.basic.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, pm, "warn", new CmdWarn(), de.timesnake.library.basic.util.chat.Plugin.SYSTEM);
-        Network.getCommandHandler().addCommand(this, pm, "ping", new PingCmd(), de.timesnake.library.basic.util.chat.Plugin.SYSTEM);
+        Network.getCommandHandler().addCommand(this, pm, "service", new CmdService(),
+                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        Network.getCommandHandler().addCommand(this, pm, "msgspy", new CmdMsgSpy(),
+                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        Network.getCommandHandler().addCommand(this, pm, "msg", List.of("tell", "message", "pm"), new CmdMsg(),
+                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        Network.getCommandHandler().addCommand(this, pm, "r", List.of("response"), new CmdResponse(),
+                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        Network.getCommandHandler().addCommand(this, pm, "force", List.of("sudo"), new CmdForce(),
+                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        Network.getCommandHandler().addCommand(this, pm, "lobby", List.of("hub", "menu", "leave"), new CmdLobby(),
+                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        Network.getCommandHandler().addCommand(this, pm, "server", new CmdServer(),
+                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        Network.getCommandHandler().addCommand(this, pm, "switch", new CmdServer(),
+                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+
+        Network.getCommandHandler().addCommand(this, pm, "mail", new MailCmd(),
+                de.timesnake.basic.proxy.util.chat.Plugin.MAILS);
+        Network.getCommandHandler().addCommand(this, pm, "broadcast", new BroadcastCmd(),
+                de.timesnake.library.basic.util.chat.Plugin.NETWORK);
+        Network.getCommandHandler().addCommand(this, pm, "warn", new CmdWarn(),
+                de.timesnake.library.basic.util.chat.Plugin.SYSTEM);
+        Network.getCommandHandler().addCommand(this, pm, "ping", new PingCmd(),
+                de.timesnake.library.basic.util.chat.Plugin.SYSTEM);
 
         pm.registerListener(this, new MailHandler());
     }
