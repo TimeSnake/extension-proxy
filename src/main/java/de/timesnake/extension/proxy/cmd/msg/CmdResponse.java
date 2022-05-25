@@ -38,7 +38,8 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
 
                         Msg.lastPrivateMessageSender.put(receiver, sender.getUser());
                     } else {
-                        sender.sendPluginMessage(ChatColor.WARNING + "No open private chat " + Chat.getMessageCode("H", 2200, Plugin.NETWORK));
+                        sender.sendPluginMessage(ChatColor.WARNING + "No open private chat " + Chat.getMessageCode("H"
+                                , 2200, Plugin.NETWORK));
                     }
                 }
             }
