@@ -14,7 +14,8 @@ public class Msg {
     public static HashMap<User, User> lastPrivateMessageSender = new HashMap<>();
 
     public static void sendMessageToListeners(User sender, User receiver, String msg) {
-        String holeMsg = Chat.getSenderPlugin(Plugin.PRIVATE_MESSAGES) + sender.getChatName() + " " + ChatDivider.COLORED_IN + receiver.getChatName() + ChatDivider.SPLITTER + " " + ChatColor.PERSONAL + msg;
+        String holeMsg =
+                Chat.getSenderPlugin(Plugin.PRIVATE_MESSAGES) + sender.getChatName() + " " + ChatDivider.COLORED_IN + receiver.getChatName() + ChatDivider.SPLITTER + " " + ChatColor.PERSONAL + msg;
 
         for (User user : Network.getPrivateMessageListeners()) {
             user.sendMessage(holeMsg);

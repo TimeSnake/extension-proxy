@@ -17,24 +17,21 @@ import java.util.List;
 
 public class CmdWarn implements CommandListener<Sender, Argument> {
 
-    enum Type {
-        TEAM("team", "Teaming is forbidden"), FAIR_PLAY("fair", "Remember to play fair"), SPAM("spam", "Spamming is forbidden"), BUG("bug", "Exploiting bugs is forbidden"), TIPS("tips", "Giving tips is forbidden"), RULES("rules", "Please respect our rules"), BETTER("better", "You can do this better"), HACKS("hacks", "Big Brother is watching you!"), CUSTOM("custom", "");
-
-        private final String name;
-        private final String text;
-
-        Type(String name, String text) {
-            this.name = name;
-            this.text = text;
+    public static Type getTypeByName(String name) {
+        for (Type type : Type.values()) {
+            if (type.getName().equalsIgnoreCase(name)) {
+                return type;
+            }
         }
+        return null;
+    }
 
-        public String getName() {
-            return name;
+    public static List<String> getTypeNames() {
+        List<String> names = new ArrayList<>();
+        for (Type type : Type.values()) {
+            names.add(type.getName());
         }
-
-        public String getText() {
-            return text;
-        }
+        return names;
     }
 
     @Override
@@ -73,7 +70,8 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
 
         sender.sendPluginMessage(ChatColor.PERSONAL + "Warned player " + user.getChatName());
         user.sendPluginMessage(Plugin.SYSTEM, ChatColor.WARNING + type.getText());
-        Network.printText(Plugin.SYSTEM, sender.getChatName() + " warned " + user.getChatName() + ": " + type.getName());
+        Network.printText(Plugin.SYSTEM,
+                sender.getChatName() + " warned " + user.getChatName() + ": " + type.getName());
     }
 
     @Override
@@ -86,20 +84,31 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
         return List.of();
     }
 
-    public static Type getTypeByName(String name) {
-        for (Type type : Type.values()) {
-            if (type.getName().equalsIgnoreCase(name)) {
-                return type;
-            }
-        }
-        return null;
-    }
+    enum Type {
+        TEAM("team", "Teaming is forbidden"),
+        FAIR_PLAY("fair", "Remember to play fair"),
+        SPAM("spam", "Spamming is forbidden"),
+        BUG("bug", "Exploiting bugs is forbidden"),
+        TIPS("tips", "Giving tips is forbidden"),
+        RULES("rules", "Please respect our rules"),
+        BETTER("better", "You can do this better"),
+        HACKS("hacks", "Big Brother is watching you!"),
+        CUSTOM("custom", "");
 
-    public static List<String> getTypeNames() {
-        List<String> names = new ArrayList<>();
-        for (Type type : Type.values()) {
-            names.add(type.getName());
+        private final String name;
+        private final String text;
+
+        Type(String name, String text) {
+            this.name = name;
+            this.text = text;
         }
-        return names;
+
+        public String getName() {
+            return name;
+        }
+
+        public String getText() {
+            return text;
+        }
     }
 }

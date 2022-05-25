@@ -28,7 +28,8 @@ public class CmdForce implements CommandListener<Sender, Argument> {
 
                             ProxyServer.getInstance().getPluginManager().dispatchCommand(user.getPlayer(), msg);
 
-                            Network.getChannel().sendMessage(new ChannelUserMessage<>(user.getUniqueId(), MessageType.User.COMMAND, msg));
+                            Network.getChannel().sendMessage(new ChannelUserMessage<>(user.getUniqueId(),
+                                    MessageType.User.COMMAND, msg));
                             sender.sendPluginMessage(ChatColor.PERSONAL + "Forced player " + ChatColor.VALUE + user.getChatName() + ChatColor.PERSONAL + " to execute command " + ChatColor.VALUE + msg);
                         } else {
                             sender.sendPluginMessage(ChatColor.WARNING + "Only command are permitted");

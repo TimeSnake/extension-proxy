@@ -21,6 +21,7 @@ import java.util.UUID;
 
 public class MailHandler implements Listener {
 
+    private final ArrayList<ProxiedPlayer> joined = new ArrayList<>();
     private Sender sender;
     private Integer id;
 
@@ -76,7 +77,8 @@ public class MailHandler implements Listener {
 
                 User receiverUser = Network.getUser(receiverUuid);
                 if (receiverUser != null) {
-                    receiverUser.sendPluginMessage(Plugin.MAILS, ChatColor.PERSONAL + "A new mail " + "received (id: " + ChatColor.VALUE + this.id + ChatColor.PERSONAL + ")");
+                    receiverUser.sendPluginMessage(Plugin.MAILS, ChatColor.PERSONAL + "A new mail " + "received (id: "
+                            + ChatColor.VALUE + this.id + ChatColor.PERSONAL + ")");
                     receiverUser.getAsSender(Plugin.MAILS).sendMessageCommandHelp("Show mail", "mail show <id>");
                 }
             }
@@ -91,8 +93,6 @@ public class MailHandler implements Listener {
         this.sender.getUser().getDatabase().deleteMail(this.id);
         this.sender.sendPluginMessage(ChatColor.PERSONAL + "Deleted mail " + ChatColor.VALUE + this.id);
     }
-
-    private final ArrayList<ProxiedPlayer> joined = new ArrayList<>();
 
     @EventHandler
     public void onPlayerJoin(PostLoginEvent e) {

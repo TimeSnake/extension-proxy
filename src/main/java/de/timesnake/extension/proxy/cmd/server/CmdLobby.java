@@ -22,18 +22,22 @@ public class CmdLobby implements CommandListener<Sender, Argument> {
             if (sender.hasPermission("exproxy.server.lobby", 2103)) {
                 if (sender.isPlayer(true)) {
                     User user = sender.getUser();
-                    ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(user.getDbUser().getServerLobby().getName());
+                    ServerInfo serverInfo =
+                            ProxyServer.getInstance().getServerInfo(user.getDbUser().getServerLobby().getName());
                     user.connect(serverInfo);
-                    user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to lobby " + ChatColor.VALUE + serverInfo.getName());
+                    user.sendPluginMessage(Plugin.NETWORK,
+                            ChatColor.PERSONAL + "Switched to lobby " + ChatColor.VALUE + serverInfo.getName());
                 }
             }
         } else if (args.isLengthEquals(1, true)) {
             if (sender.hasPermission("exproxy.server.lobby.other", 2104)) {
                 if (args.get(0).isPlayerName(true)) {
                     User user = args.get(0).toUser();
-                    ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(user.getDbUser().getServerLobby().getName());
+                    ServerInfo serverInfo =
+                            ProxyServer.getInstance().getServerInfo(user.getDbUser().getServerLobby().getName());
                     user.connect(serverInfo);
-                    user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to lobby " + ChatColor.VALUE + serverInfo.getName());
+                    user.sendPluginMessage(Plugin.NETWORK,
+                            ChatColor.PERSONAL + "Switched to lobby " + ChatColor.VALUE + serverInfo.getName());
                     sender.sendPluginMessage(ChatColor.PERSONAL + "Switched player " + ChatColor.VALUE + user.getChatName() + ChatColor.PERSONAL + " to lobby " + ChatColor.VALUE + serverInfo.getName());
                 }
             }
