@@ -2,15 +2,15 @@ package de.timesnake.extension.proxy.cmd.force;
 
 import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
-import de.timesnake.basic.proxy.util.chat.ChatColor;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
+import de.timesnake.extension.proxy.main.ExProxy;
+import de.timesnake.library.basic.util.chat.ChatColor;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
-import net.md_5.bungee.api.ProxyServer;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class CmdForce implements CommandListener<Sender, Argument> {
                         if (args.get(1).getString().startsWith("/")) {
                             String msg = args.toMessage(1);
 
-                            ProxyServer.getInstance().getPluginManager().dispatchCommand(user.getPlayer(), msg);
+                            ExProxy.getServer().getCommandManager().executeAsync(user.getPlayer(), msg);
 
                             Network.getChannel().sendMessage(new ChannelUserMessage<>(user.getUniqueId(),
                                     MessageType.User.COMMAND, msg));

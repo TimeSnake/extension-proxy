@@ -1,16 +1,16 @@
 package de.timesnake.extension.proxy.cmd.server;
 
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
-import de.timesnake.basic.proxy.util.chat.ChatColor;
 import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
+import de.timesnake.extension.proxy.main.ExProxy;
+import de.timesnake.library.basic.util.chat.ChatColor;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
 
 import java.util.List;
 
@@ -24,24 +24,24 @@ public class CmdServer implements CommandListener<Sender, Argument> {
                     if (sender.hasPermission("exproxy.server.switch", 2101)) {
                         if (sender.isPlayer(true)) {
                             User user = sender.getUser();
-                            ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(args.get(0).getString());
-                            user.getPlayer().connect(serverInfo);
+                            RegisteredServer serverInfo = ExProxy.getServer().getServer(args.get(0).getString()).get();
+                            user.connect(serverInfo);
                             user.setTask(null);
                             user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " +
-                                    ChatColor.VALUE + serverInfo.getName());
+                                    ChatColor.VALUE + serverInfo.getServerInfo().getName());
                         }
                     }
                 } else if (args.isLengthEquals(2, true)) {
                     if (sender.hasPermission("exproxy.server.switch.other", 2102)) {
                         if (args.get(1).isPlayerName(true)) {
                             User user = args.get(1).toUser();
-                            ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(args.get(0).getString());
-                            user.getPlayer().connect(serverInfo);
+                            RegisteredServer server = ExProxy.getServer().getServer(args.get(0).getString()).get();
+                            user.connect(server);
                             user.setTask(null);
                             user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " +
-                                    ChatColor.VALUE + serverInfo.getName());
+                                    ChatColor.VALUE + server.getServerInfo().getName());
                             sender.sendPluginMessage(ChatColor.PERSONAL + "Switched player " + ChatColor.VALUE +
-                                    user.getChatName() + ChatColor.PERSONAL + " to server " + ChatColor.VALUE + serverInfo.getName());
+                                    user.getChatName() + ChatColor.PERSONAL + " to server " + ChatColor.VALUE + server.getServerInfo().getName());
                         }
                     }
                 } else {

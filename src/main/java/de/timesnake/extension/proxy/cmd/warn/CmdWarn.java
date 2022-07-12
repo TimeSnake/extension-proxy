@@ -2,15 +2,15 @@ package de.timesnake.extension.proxy.cmd.warn;
 
 import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
-import de.timesnake.basic.proxy.util.chat.ChatColor;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
+import de.timesnake.library.basic.util.chat.ChatColor;
 import de.timesnake.library.basic.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +63,9 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
 
         if (type.equals(Type.CUSTOM)) {
             String message = args.toMessage(1);
-            user.getPlayer().sendTitle(ProxyServer.getInstance().createTitle().title(new TextComponent("§cWarning")).subTitle(new TextComponent(message)));
+            user.getPlayer().showTitle(Title.title(Component.text("§cWarning"), Component.text(message)));
         } else {
-            user.getPlayer().sendTitle(ProxyServer.getInstance().createTitle().title(new TextComponent("§cWarning")).subTitle(new TextComponent(type.getText())));
+            user.getPlayer().showTitle(Title.title(Component.text("§cWarning"), Component.text(type.getText())));
         }
 
         sender.sendPluginMessage(ChatColor.PERSONAL + "Warned player " + user.getChatName());
