@@ -1,27 +1,26 @@
 package de.timesnake.extension.proxy.cmd.mail;
 
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
+import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.proxy.Player;
 import de.timesnake.basic.proxy.util.Network;
-import de.timesnake.basic.proxy.util.chat.ChatColor;
 import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.user.DbUserMail;
+import de.timesnake.library.basic.util.chat.ChatColor;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.ServerConnectedEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.event.EventHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-public class MailHandler implements Listener {
+public class MailHandler {
 
-    private final ArrayList<ProxiedPlayer> joined = new ArrayList<>();
+    private final ArrayList<Player> joined = new ArrayList<>();
     private Sender sender;
     private Integer id;
 
@@ -94,12 +93,12 @@ public class MailHandler implements Listener {
         this.sender.sendPluginMessage(ChatColor.PERSONAL + "Deleted mail " + ChatColor.VALUE + this.id);
     }
 
-    @EventHandler
+    @Subscribe
     public void onPlayerJoin(PostLoginEvent e) {
         joined.add(e.getPlayer());
     }
 
-    @EventHandler
+    @Subscribe
     public void onPlayerConnectedServer(ServerConnectedEvent e) {
         if (!joined.contains(e.getPlayer())) {
             return;
