@@ -81,7 +81,7 @@ public class ExProxy {
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
         Network.getCommandHandler().addCommand(this, "force", List.of("sudo"), new CmdForce(),
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, "lobby", List.of("hub", "menu", "leave"), new CmdLobby(),
+        Network.getCommandHandler().addCommand(this, "lobby", List.of("l", "hub", "menu", "leave"), new CmdLobby(),
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
         Network.getCommandHandler().addCommand(this, "server", new CmdServer(),
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
