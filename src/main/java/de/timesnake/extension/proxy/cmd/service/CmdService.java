@@ -35,7 +35,7 @@ public class CmdService implements CommandListener<Sender, Argument> {
                 user.sendPluginMessage(Plugin.NETWORK,
                         ChatColor.PERSONAL + "Updated service-mode to " + ChatColor.VALUE + user.isService());
                 if (!sender.getName().equals(user.getName())) {
-                    sender.sendPluginMessage(ChatColor.PERSONAL + "Updated service-mode for player " + ChatColor.VALUE + user.getChatName() + ChatColor.PERSONAL + " to " + ChatColor.VALUE + user.isService());
+                    sender.sendPluginMessage(ChatColor.PERSONAL + "Updated service-mode for player " + ChatColor.VALUE + user.getChatNameComponent() + ChatColor.PERSONAL + " to " + ChatColor.VALUE + user.isService());
                 }
             }
         } else {

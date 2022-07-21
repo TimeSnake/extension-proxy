@@ -41,7 +41,7 @@ public class CmdServer implements CommandListener<Sender, Argument> {
                             user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " +
                                     ChatColor.VALUE + server.getServerInfo().getName());
                             sender.sendPluginMessage(ChatColor.PERSONAL + "Switched player " + ChatColor.VALUE +
-                                    user.getChatName() + ChatColor.PERSONAL + " to server " + ChatColor.VALUE + server.getServerInfo().getName());
+                                    user.getChatNameComponent() + ChatColor.PERSONAL + " to server " + ChatColor.VALUE + server.getServerInfo().getName());
                         }
                     }
                 } else {

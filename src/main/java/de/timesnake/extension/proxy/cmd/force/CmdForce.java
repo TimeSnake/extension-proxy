@@ -30,7 +30,7 @@ public class CmdForce implements CommandListener<Sender, Argument> {
 
                             Network.getChannel().sendMessage(new ChannelUserMessage<>(user.getUniqueId(),
                                     MessageType.User.COMMAND, msg));
-                            sender.sendPluginMessage(ChatColor.PERSONAL + "Forced player " + ChatColor.VALUE + user.getChatName() + ChatColor.PERSONAL + " to execute command " + ChatColor.VALUE + msg);
+                            sender.sendPluginMessage(ChatColor.PERSONAL + "Forced player " + ChatColor.VALUE + user.getChatNameComponent() + ChatColor.PERSONAL + " to execute command " + ChatColor.VALUE + msg);
                         } else {
                             sender.sendPluginMessage(ChatColor.WARNING + "Only command are permitted");
                             sender.sendPluginMessage(ChatColor.PERSONAL + "Use /say to force a chat message");

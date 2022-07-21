@@ -1,20 +1,24 @@
 package de.timesnake.extension.proxy.cmd.msg;
 
 import de.timesnake.basic.proxy.util.Network;
+import de.timesnake.basic.proxy.util.chat.Chat;
+import de.timesnake.basic.proxy.util.chat.NamedTextColor;
 import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.user.User;
-import de.timesnake.library.basic.util.chat.ChatColor;
-import de.timesnake.library.extension.util.chat.Chat;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
+import net.kyori.adventure.text.Component;
 
 import java.util.HashMap;
 
 public class Msg {
 
     public static void sendMessageToListeners(User sender, User receiver, String msg) {
-        String holeMsg =
-                Chat.getSenderPlugin(Plugin.PRIVATE_MESSAGES) + sender.getChatName() + " " + ChatDivider.COLORED_IN +
-                        receiver.getChatName() + ChatDivider.SPLITTER + " " + ChatColor.PERSONAL + msg;
+        Component holeMsg = Chat.getSenderPlugin(Plugin.PRIVATE_MESSAGES)
+                .append(sender.getChatNameComponent())
+                .append(Component.text(" " + ChatDivider.COLORED_IN))
+                .append(receiver.getChatNameComponent())
+                .append(Component.text(ChatDivider.SPLITTER + " "))
+                .append(Component.text(msg).color(NamedTextColor.PERSONAL));
 
         for (User user : Network.getPrivateMessageListeners()) {
             user.sendMessage(holeMsg);
