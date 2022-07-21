@@ -39,7 +39,7 @@ public class CmdLobby implements CommandListener<Sender, Argument> {
                     user.sendPluginMessage(Plugin.NETWORK,
                             ChatColor.PERSONAL + "Switched to lobby " + ChatColor.VALUE + server.getServerInfo().getName());
                     sender.sendPluginMessage(ChatColor.PERSONAL + "Switched player " + ChatColor.VALUE +
-                            user.getChatName() + ChatColor.PERSONAL + " to lobby " + ChatColor.VALUE + server.getServerInfo().getName());
+                            user.getChatNameComponent() + ChatColor.PERSONAL + " to lobby " + ChatColor.VALUE + server.getServerInfo().getName());
                 }
             }
 

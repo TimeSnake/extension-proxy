@@ -27,12 +27,12 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
                         String msg = args.toMessage();
 
                         if (!sender.getUser().equals(receiver)) {
-                            sender.sendMessage(receiver.getChatName() + ChatDivider.COLORED_OUT + ChatColor.VALUE + msg);
+                            sender.sendMessage(receiver.getChatNameComponent() + ChatDivider.COLORED_OUT + ChatColor.VALUE + msg);
 
-                            receiver.sendMessage(sender.getUser().getChatName() + ChatDivider.COLORED_IN + ChatColor.VALUE + msg);
+                            receiver.sendMessage(sender.getUser().getChatNameComponent() + ChatDivider.COLORED_IN + ChatColor.VALUE + msg);
                             receiver.playSound(ChannelUserMessage.Sound.PLING);
                         } else {
-                            sender.sendMessage(receiver.getChatName() + ChatDivider.COLORED_OUT_IN + ChatColor.VALUE + msg);
+                            sender.sendMessage(receiver.getChatNameComponent() + ChatDivider.COLORED_OUT_IN + ChatColor.VALUE + msg);
                             receiver.playSound(ChannelUserMessage.Sound.PLING);
                         }
 
