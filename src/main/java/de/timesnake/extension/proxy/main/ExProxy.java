@@ -10,6 +10,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.PluginManager;
 import com.velocitypowered.api.proxy.ProxyServer;
 import de.timesnake.basic.proxy.util.Network;
+import de.timesnake.extension.proxy.cmd.BugFindCmd;
 import de.timesnake.extension.proxy.cmd.PingCmd;
 import de.timesnake.extension.proxy.cmd.broadcast.BroadcastCmd;
 import de.timesnake.extension.proxy.cmd.force.CmdForce;
@@ -96,6 +97,9 @@ public class ExProxy {
                 de.timesnake.library.basic.util.chat.Plugin.SYSTEM);
         Network.getCommandHandler().addCommand(this, "ping", new PingCmd(),
                 de.timesnake.library.basic.util.chat.Plugin.SYSTEM);
+
+        Network.getCommandHandler().addCommand(this, "bugfind", new BugFindCmd(),
+                de.timesnake.library.basic.util.chat.Plugin.NETWORK);
 
         server.getEventManager().register(this, new MailHandler());
     }
