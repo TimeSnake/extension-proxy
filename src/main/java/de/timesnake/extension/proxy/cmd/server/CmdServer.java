@@ -3,6 +3,7 @@ package de.timesnake.extension.proxy.cmd.server;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
+import de.timesnake.basic.proxy.util.chat.NamedTextColor;
 import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
@@ -11,6 +12,7 @@ import de.timesnake.library.basic.util.chat.ChatColor;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
+import net.kyori.adventure.text.Component;
 
 import java.util.List;
 
@@ -40,8 +42,10 @@ public class CmdServer implements CommandListener<Sender, Argument> {
                             user.setTask(null);
                             user.sendPluginMessage(Plugin.NETWORK, ChatColor.PERSONAL + "Switched to server " +
                                     ChatColor.VALUE + server.getServerInfo().getName());
-                            sender.sendPluginMessage(ChatColor.PERSONAL + "Switched player " + ChatColor.VALUE +
-                                    user.getChatNameComponent() + ChatColor.PERSONAL + " to server " + ChatColor.VALUE + server.getServerInfo().getName());
+                            sender.sendPluginMessage(Component.text("Switched player ").color(NamedTextColor.PERSONAL)
+                                    .append(user.getChatNameComponent())
+                                    .append(Component.text(" to server ").color(NamedTextColor.PERSONAL))
+                                    .append(Component.text(server.getServerInfo().getName()).color(NamedTextColor.VALUE)));
                         }
                     }
                 } else {
