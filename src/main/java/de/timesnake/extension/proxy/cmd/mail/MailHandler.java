@@ -11,8 +11,9 @@ import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.user.DbUserMail;
-import de.timesnake.library.basic.util.chat.ChatColor;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
+import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,7 +44,7 @@ public class MailHandler {
     public void printMails() {
         Collection<DbUserMail> mails = this.sender.getUser().getDatabase().getMails();
         if (mails.size() == 0) {
-            sender.sendPluginMessage(ChatColor.PERSONAL + "You have no mails");
+            sender.sendPluginMessage(Component.text("You have no mails", ExTextColor.WARNING));
             return;
         }
         for (DbUserMail mail : mails) {
@@ -58,8 +59,12 @@ public class MailHandler {
 
     public void printMail(DbUserMail mail) {
         if (mail != null) {
-            this.sender.sendPluginMessage(ChatColor.PERSONAL + "Mail " + ChatColor.VALUE + mail.getId());
-            this.sender.sendMessage(ChatDivider.COLORED_SPLITTER + mail.getSenderName() + ChatDivider.SPLITTER + mail.getMessage());
+            this.sender.sendPluginMessage(Component.text("Mail ", ExTextColor.PERSONAL)
+                    .append(Component.text(mail.getId(), ExTextColor.VALUE)));
+            this.sender.sendMessage(ChatDivider.COLORED_SPLITTER
+                    .append(Component.text(mail.getSenderName(), ExTextColor.VALUE))
+                    .append(ChatDivider.SPLITTER)
+                    .append(Component.text(mail.getMessage(), ExTextColor.VALUE)));
         } else {
             this.sender.sendMessageNotExist(String.valueOf(mail.getId()), 2202, "Id");
         }
@@ -69,28 +74,33 @@ public class MailHandler {
         User user = this.sender.getUser();
         try {
             this.id = Database.getUsers().getUser(receiverUuid).addMail(user.getUniqueId(), user.getName(), message);
-            this.sender.sendPluginMessage(ChatColor.PERSONAL + "Send mail:");
+            this.sender.sendPluginMessage(Component.text("Send mail:", ExTextColor.PERSONAL));
             DbUserMail mail = this.sender.getUser().getDatabase().getMail(this.id);
             if (mail != null) {
-                this.sender.sendMessage(ChatDivider.COLORED_IN + mail.getName() + ChatDivider.SPLITTER + mail.getMessage());
+                this.sender.sendMessage(ChatDivider.COLORED_IN
+                        .append(Component.text(mail.getName(), ExTextColor.VALUE))
+                        .append(ChatDivider.SPLITTER)
+                        .append(Component.text(mail.getMessage(), ExTextColor.VALUE)));
 
                 User receiverUser = Network.getUser(receiverUuid);
                 if (receiverUser != null) {
-                    receiverUser.sendPluginMessage(Plugin.MAILS, ChatColor.PERSONAL + "A new mail " + "received (id: "
-                            + ChatColor.VALUE + this.id + ChatColor.PERSONAL + ")");
+                    receiverUser.sendPluginMessage(Plugin.MAILS, Component.text("Received a new mail (id: ", ExTextColor.PERSONAL)
+                            .append(Component.text(this.id, ExTextColor.VALUE))
+                            .append(Component.text(")", ExTextColor.PERSONAL)));
                     receiverUser.getAsSender(Plugin.MAILS).sendMessageCommandHelp("Show mail", "mail show <id>");
                 }
             }
 
 
         } catch (TooLongEntryException e) {
-            this.sender.sendPluginMessage(ChatColor.WARNING + e.getMessage());
+            this.sender.sendPluginMessage(Component.text(e.getMessage(), ExTextColor.WARNING));
         }
     }
 
     public void deleteMail() {
         this.sender.getUser().getDatabase().deleteMail(this.id);
-        this.sender.sendPluginMessage(ChatColor.PERSONAL + "Deleted mail " + ChatColor.VALUE + this.id);
+        this.sender.sendPluginMessage(Component.text("Deleted mail ", ExTextColor.PERSONAL)
+                .append(Component.text(this.id, ExTextColor.VALUE)));
     }
 
     @Subscribe
@@ -111,7 +121,9 @@ public class MailHandler {
         this.sender = user.getAsSender(Plugin.MAILS);
         Collection<DbUserMail> mails = this.sender.getUser().getDatabase().getMails();
         if (mails.size() > 0) {
-            sender.sendPluginMessage(ChatColor.PERSONAL + "You have " + ChatColor.VALUE + mails.size() + ChatColor.PUBLIC + " mails");
+            sender.sendPluginMessage(Component.text("You have ", ExTextColor.PERSONAL)
+                    .append(Component.text(mails.size(), ExTextColor.VALUE))
+                    .append(Component.text(" mails", ExTextColor.PERSONAL)));
         }
     }
 }

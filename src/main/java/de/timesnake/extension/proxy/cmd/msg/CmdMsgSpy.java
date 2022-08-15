@@ -3,10 +3,11 @@ package de.timesnake.extension.proxy.cmd.msg;
 import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
-import de.timesnake.library.basic.util.chat.ChatColor;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
+import net.kyori.adventure.text.Component;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class CmdMsgSpy implements CommandListener<Sender, Argument> {
                 User user = sender.getUser();
                 user.setListeningPrivateMessages(!user.isListeningPrivateMessages());
                 if (user.isListeningPrivateMessages()) {
-                    sender.sendPluginMessage(ChatColor.PERSONAL + "Enabled private-message messages");
+                    sender.sendPluginMessage(Component.text("Enabled private-message messages", ExTextColor.PERSONAL));
                 } else {
-                    sender.sendPluginMessage(ChatColor.PERSONAL + "Disabled private-message messages");
+                    sender.sendPluginMessage(Component.text("Disabled private-message messages", ExTextColor.PERSONAL));
                 }
             }
         }

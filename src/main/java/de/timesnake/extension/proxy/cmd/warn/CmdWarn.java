@@ -4,7 +4,7 @@ import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
-import de.timesnake.library.basic.util.chat.ChatColor;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.basic.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
@@ -68,10 +68,10 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
             user.getPlayer().showTitle(Title.title(Component.text("§cWarning"), Component.text(type.getText())));
         }
 
-        sender.sendPluginMessage(ChatColor.PERSONAL + "Warned player " + user.getChatNameComponent());
-        user.sendPluginMessage(Plugin.SYSTEM, ChatColor.WARNING + type.getText());
-        Network.printText(Plugin.SYSTEM,
-                sender.getChatName() + " warned " + user.getChatNameComponent() + ": " + type.getName());
+        sender.sendPluginMessage(Component.text("Warned player ", ExTextColor.PERSONAL)
+                .append(user.getChatNameComponent()));
+        user.sendPluginMessage(Plugin.SYSTEM, Component.text(type.getText(), ExTextColor.WARNING));
+        Network.printText(Plugin.SYSTEM, sender.getChatName() + " warned " + user.getChatNameComponent() + ": " + type.getName());
     }
 
     @Override

@@ -7,10 +7,11 @@ import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.extension.proxy.main.ExProxy;
-import de.timesnake.library.basic.util.chat.ChatColor;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
+import net.kyori.adventure.text.Component;
 
 import java.util.List;
 
@@ -30,10 +31,13 @@ public class CmdForce implements CommandListener<Sender, Argument> {
 
                             Network.getChannel().sendMessage(new ChannelUserMessage<>(user.getUniqueId(),
                                     MessageType.User.COMMAND, msg));
-                            sender.sendPluginMessage(ChatColor.PERSONAL + "Forced player " + ChatColor.VALUE + user.getChatNameComponent() + ChatColor.PERSONAL + " to execute command " + ChatColor.VALUE + msg);
+                            sender.sendPluginMessage(Component.text("Forced player ", ExTextColor.PERSONAL)
+                                    .append(user.getChatNameComponent())
+                                    .append(Component.text(" to execute command ", ExTextColor.PERSONAL))
+                                    .append(Component.text(msg, ExTextColor.VALUE)));
                         } else {
-                            sender.sendPluginMessage(ChatColor.WARNING + "Only command are permitted");
-                            sender.sendPluginMessage(ChatColor.PERSONAL + "Use /say to force a chat message");
+                            sender.sendPluginMessage(Component.text("Only command are permitted", ExTextColor.PERSONAL));
+                            sender.sendPluginMessage(Component.text("Use /say to force a chat message", ExTextColor.PERSONAL));
                         }
                     }
                 }
