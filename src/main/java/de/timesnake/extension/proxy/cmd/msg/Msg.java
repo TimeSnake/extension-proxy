@@ -1,10 +1,10 @@
 package de.timesnake.extension.proxy.cmd.msg;
 
 import de.timesnake.basic.proxy.util.Network;
-import de.timesnake.basic.proxy.util.chat.Chat;
-import de.timesnake.basic.proxy.util.chat.NamedTextColor;
 import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.user.User;
+import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Chat;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
 import net.kyori.adventure.text.Component;
 
@@ -18,7 +18,7 @@ public class Msg {
                 .append(Component.text(" " + ChatDivider.COLORED_IN))
                 .append(receiver.getChatNameComponent())
                 .append(Component.text(ChatDivider.SPLITTER + " "))
-                .append(Component.text(msg).color(NamedTextColor.PERSONAL));
+                .append(Component.text(msg, ExTextColor.PERSONAL));
 
         for (User user : Network.getPrivateMessageListeners()) {
             user.sendMessage(holeMsg);

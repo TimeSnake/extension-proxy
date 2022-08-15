@@ -2,10 +2,10 @@ package de.timesnake.extension.proxy.cmd.msg;
 
 import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
-import de.timesnake.basic.proxy.util.chat.NamedTextColor;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.channel.util.message.ChannelUserMessage;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
 import de.timesnake.library.extension.util.cmd.CommandListener;
@@ -26,17 +26,17 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
 
                     if (!sender.getUser().equals(receiver)) {
                         sender.sendMessage(receiver.getChatNameComponent()
-                                .append(Component.text(ChatDivider.COLORED_OUT))
-                                .append(Component.text(msg).color(NamedTextColor.PERSONAL)));
+                                .append(ChatDivider.COLORED_OUT)
+                                .append(Component.text(msg, ExTextColor.PERSONAL)));
 
                         receiver.sendMessage(sender.getUser().getChatNameComponent()
-                                .append(Component.text(ChatDivider.COLORED_IN))
-                                .append(Component.text(msg).color(NamedTextColor.PERSONAL)));
+                                .append(ChatDivider.COLORED_IN)
+                                .append(Component.text(msg, ExTextColor.PERSONAL)));
                         receiver.playSound(ChannelUserMessage.Sound.PLING);
                     } else {
                         sender.sendMessage(receiver.getChatNameComponent()
-                                .append(Component.text(ChatDivider.COLORED_OUT_IN))
-                                .append(Component.text(msg).color(NamedTextColor.PERSONAL)));
+                                .append(ChatDivider.COLORED_OUT_IN)
+                                .append(Component.text(msg, ExTextColor.PERSONAL)));
                         receiver.playSound(ChannelUserMessage.Sound.PLING);
                     }
 

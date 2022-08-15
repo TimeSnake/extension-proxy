@@ -2,10 +2,11 @@ package de.timesnake.extension.proxy.cmd;
 
 import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.Sender;
-import de.timesnake.library.basic.util.chat.ChatColor;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
+import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,8 @@ public class PingCmd implements CommandListener<Sender, Argument> {
             return;
         }
 
-        sender.sendPluginMessage(ChatColor.PERSONAL + "Pong! " + ChatColor.VALUE + "(" + sender.getUser().getPlayer().getPing() + "ms)");
+        sender.sendPluginMessage(Component.text("Pong! ", ExTextColor.PERSONAL)
+                .append(Component.text("(" + sender.getUser().getPlayer().getPing() + "ms)", ExTextColor.VALUE)));
     }
 
     @Override
