@@ -92,14 +92,14 @@ public class ExProxy {
         Network.getCommandHandler().addCommand(this, "mail", new MailCmd(),
                 de.timesnake.basic.proxy.util.chat.Plugin.MAILS);
         Network.getCommandHandler().addCommand(this, "broadcast", new BroadcastCmd(),
-                de.timesnake.library.basic.util.chat.Plugin.NETWORK);
+                de.timesnake.library.extension.util.chat.Plugin.NETWORK);
         Network.getCommandHandler().addCommand(this, "warn", new CmdWarn(),
-                de.timesnake.library.basic.util.chat.Plugin.SYSTEM);
+                de.timesnake.library.extension.util.chat.Plugin.SYSTEM);
         Network.getCommandHandler().addCommand(this, "ping", new PingCmd(),
-                de.timesnake.library.basic.util.chat.Plugin.SYSTEM);
+                de.timesnake.library.extension.util.chat.Plugin.SYSTEM);
 
         Network.getCommandHandler().addCommand(this, "bugfind", new BugFindCmd(),
-                de.timesnake.library.basic.util.chat.Plugin.NETWORK);
+                de.timesnake.library.extension.util.chat.Plugin.NETWORK);
 
         server.getEventManager().register(this, new MailHandler());
     }

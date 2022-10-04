@@ -6,6 +6,7 @@ import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.database.util.user.DbUser;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
@@ -17,9 +18,11 @@ public class BugFindCmd implements CommandListener<Sender, Argument> {
 
     private static final float REWARD = 19;
 
+    private Code.Permission perm;
+
     @Override
     public void onCommand(Sender sender, ExCommand<Sender, Argument> command, Arguments<Argument> args) {
-        if (!sender.hasPermission("network.bugfind", 51)) {
+        if (!sender.hasPermission(this.perm)) {
             return;
         }
 
@@ -45,5 +48,10 @@ public class BugFindCmd implements CommandListener<Sender, Argument> {
             return Network.getCommandHandler().getPlayerNames();
         }
         return List.of();
+    }
+
+    @Override
+    public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
+        this.perm = plugin.createPermssionCode("ntw", "network.bugfind");
     }
 }

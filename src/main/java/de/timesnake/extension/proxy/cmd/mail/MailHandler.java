@@ -12,6 +12,7 @@ import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.user.DbUserMail;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
 import net.kyori.adventure.text.Component;
 
@@ -25,10 +26,14 @@ public class MailHandler {
     private Sender sender;
     private Integer id;
 
+    private Code.Help mailNotExists;
+
     public MailHandler() {
+        this.mailNotExists = Plugin.MAILS.createHelpCode("mal", "Mail does not exists");
     }
 
     public MailHandler(Sender sender) {
+        this();
         this.sender = sender;
     }
 
@@ -66,7 +71,7 @@ public class MailHandler {
                     .append(ChatDivider.SPLITTER)
                     .append(Component.text(mail.getMessage(), ExTextColor.VALUE)));
         } else {
-            this.sender.sendMessageNotExist(String.valueOf(mail.getId()), 2202, "Id");
+            this.sender.sendMessageNotExist(String.valueOf(mail.getId()), this.mailNotExists, "Id");
         }
     }
 
