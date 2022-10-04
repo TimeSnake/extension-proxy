@@ -4,6 +4,7 @@ import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.database.util.Database;
+import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
@@ -86,5 +87,10 @@ public class MailCmd implements CommandListener<Sender, Argument> {
             return Network.getCommandHandler().getPlayerNames();
         }
         return null;
+    }
+
+    @Override
+    public void loadCodes(Plugin plugin) {
+
     }
 }

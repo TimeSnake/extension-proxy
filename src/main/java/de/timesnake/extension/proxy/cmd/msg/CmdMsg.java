@@ -6,6 +6,8 @@ import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Code;
+import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
 import de.timesnake.library.extension.util.cmd.CommandListener;
@@ -16,9 +18,11 @@ import java.util.List;
 
 public class CmdMsg implements CommandListener<Sender, Argument> {
 
+    private Code.Permission perm;
+
     @Override
     public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
-        if (sender.hasPermission("exproxy.msg.msg", 2105)) {
+        if (sender.hasPermission(this.perm)) {
             if (args.isLengthHigherEquals(2, true)) {
                 if (args.get(0).isPlayerName(true) && sender.isPlayer(true)) {
                     User receiver = args.get(0).toUser();
@@ -55,5 +59,10 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
             return Network.getCommandHandler().getPlayerNames();
         }
         return List.of();
+    }
+
+    @Override
+    public void loadCodes(Plugin plugin) {
+        this.perm = plugin.createPermssionCode("msg", "network.msg.msg");
     }
 }

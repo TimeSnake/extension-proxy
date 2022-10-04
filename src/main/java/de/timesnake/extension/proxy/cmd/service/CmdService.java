@@ -6,6 +6,7 @@ import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
@@ -15,11 +16,14 @@ import java.util.List;
 
 public class CmdService implements CommandListener<Sender, Argument> {
 
+    private Code.Permission perm;
+    private Code.Permission otherPerm;
+
     @Override
     public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
         if (args.isLengthEquals(0, false)) {
             if (sender.isPlayer(true)) {
-                if (!sender.hasPermission("exproxy.service", 2110)) {
+                if (!sender.hasPermission(this.perm)) {
                     return;
                 }
                 User user = sender.getUser();
@@ -28,7 +32,7 @@ public class CmdService implements CommandListener<Sender, Argument> {
                         .append(Component.text(user.isService(), ExTextColor.VALUE)));
             }
         } else if (args.isLengthEquals(1, true)) {
-            if (!sender.hasPermission("exproxy.service.other", 2111)) {
+            if (!sender.hasPermission(this.otherPerm)) {
                 return;
             }
             if (args.get(0).isPlayerName(true)) {
@@ -54,5 +58,11 @@ public class CmdService implements CommandListener<Sender, Argument> {
             return Network.getCommandHandler().getPlayerNames();
         }
         return null;
+    }
+
+    @Override
+    public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
+        this.perm = plugin.createPermssionCode("ser", "exproxy.service");
+        this.otherPerm = plugin.createPermssionCode("ser", "exproxy.service.other");
     }
 }

@@ -5,7 +5,8 @@ import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.library.basic.util.chat.ExTextColor;
-import de.timesnake.library.basic.util.chat.Plugin;
+import de.timesnake.library.extension.util.chat.Code;
+import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
@@ -34,9 +35,12 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
         return names;
     }
 
+    private Code.Permission perm;
+    private Code.Help typeNotExists;
+
     @Override
     public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
-        if (!sender.hasPermission("exproxy.warn", 2112)) {
+        if (!sender.hasPermission(this.perm)) {
             return;
         }
 
@@ -57,7 +61,7 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
         Type type = getTypeByName(args.getString(1));
 
         if (type == null) {
-            sender.sendMessageNotExist(args.getString(1), 2203, "warn type");
+            sender.sendMessageNotExist(args.getString(1), this.typeNotExists, "warn type");
             return;
         }
 
@@ -82,6 +86,12 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
             return getTypeNames();
         }
         return List.of();
+    }
+
+    @Override
+    public void loadCodes(Plugin plugin) {
+        this.perm = plugin.createPermssionCode("ntw", "exproxy.warn");
+        this.typeNotExists = plugin.createHelpCode("ntw", "Warn-Type not exists");
     }
 
     enum Type {

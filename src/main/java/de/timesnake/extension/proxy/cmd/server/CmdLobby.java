@@ -7,7 +7,8 @@ import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.extension.proxy.main.ExProxy;
 import de.timesnake.library.basic.util.chat.ExTextColor;
-import de.timesnake.library.basic.util.chat.Plugin;
+import de.timesnake.library.extension.util.chat.Code;
+import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
@@ -17,10 +18,13 @@ import java.util.List;
 
 public class CmdLobby implements CommandListener<Sender, Argument> {
 
+    private Code.Permission perm;
+    private Code.Permission otherPerm;
+
     @Override
     public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
         if (args.isLengthEquals(0, false)) {
-            if (sender.hasPermission("exproxy.server.lobby", 2103)) {
+            if (sender.hasPermission(this.perm)) {
                 if (sender.isPlayer(true)) {
                     User user = sender.getUser();
                     RegisteredServer server =
@@ -31,7 +35,7 @@ public class CmdLobby implements CommandListener<Sender, Argument> {
                 }
             }
         } else if (args.isLengthEquals(1, true)) {
-            if (sender.hasPermission("exproxy.server.lobby.other", 2104)) {
+            if (sender.hasPermission(this.otherPerm)) {
                 if (args.get(0).isPlayerName(true)) {
                     User user = args.get(0).toUser();
                     RegisteredServer server =
@@ -56,5 +60,11 @@ public class CmdLobby implements CommandListener<Sender, Argument> {
             return Network.getCommandHandler().getPlayerNames();
         }
         return null;
+    }
+
+    @Override
+    public void loadCodes(Plugin plugin) {
+        this.perm = plugin.createPermssionCode("ntw", "exproxy.server.lobby");
+        this.otherPerm = plugin.createPermssionCode("ntw", "exproxy.server.lobby.other");
     }
 }
