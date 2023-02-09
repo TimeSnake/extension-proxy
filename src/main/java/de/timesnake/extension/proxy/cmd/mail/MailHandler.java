@@ -29,10 +29,10 @@ public class MailHandler {
     private Sender sender;
     private Integer id;
 
-    private Code.Help mailNotExists;
+    private Code mailNotExists;
 
     public MailHandler() {
-        this.mailNotExists = Plugin.MAILS.createHelpCode("mal", "Mail does not exists");
+        this.mailNotExists = Plugin.MAILS.createHelpCode("Mail does not exists");
     }
 
     public MailHandler(Sender sender) {
@@ -81,7 +81,8 @@ public class MailHandler {
     public void sendMail(UUID receiverUuid, String message) {
         User user = this.sender.getUser();
         try {
-            this.id = Database.getUsers().getUser(receiverUuid).addMail(user.getUniqueId(), user.getName(), message);
+            this.id = Database.getUsers().getUser(receiverUuid)
+                    .addMail(user.getUniqueId(), user.getName(), message);
             this.sender.sendPluginMessage(Component.text("Send mail:", ExTextColor.PERSONAL));
             DbUserMail mail = this.sender.getUser().getDatabase().getMail(this.id);
             if (mail != null) {
@@ -92,10 +93,12 @@ public class MailHandler {
 
                 User receiverUser = Network.getUser(receiverUuid);
                 if (receiverUser != null) {
-                    receiverUser.sendPluginMessage(Plugin.MAILS, Component.text("Received a new mail (id: ", ExTextColor.PERSONAL)
-                            .append(Component.text(this.id, ExTextColor.VALUE))
-                            .append(Component.text(")", ExTextColor.PERSONAL)));
-                    receiverUser.getAsSender(Plugin.MAILS).sendMessageCommandHelp("Show mail", "mail show <id>");
+                    receiverUser.sendPluginMessage(Plugin.MAILS,
+                            Component.text("Received a new mail (id: ", ExTextColor.PERSONAL)
+                                    .append(Component.text(this.id, ExTextColor.VALUE))
+                                    .append(Component.text(")", ExTextColor.PERSONAL)));
+                    receiverUser.getAsSender(Plugin.MAILS)
+                            .sendMessageCommandHelp("Show mail", "mail show <id>");
                 }
             }
 

@@ -21,11 +21,12 @@ import net.kyori.adventure.text.Component;
 
 public class CmdServer implements CommandListener<Sender, Argument> {
 
-    private Code.Permission perm;
-    private Code.Permission otherPerm;
+    private Code perm;
+    private Code otherPerm;
 
     @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.isLengthHigherEquals(1, true)) {
             if (args.get(0).isServerName(true)) {
                 if (args.isLengthEquals(1, false)) {
@@ -40,11 +41,15 @@ public class CmdServer implements CommandListener<Sender, Argument> {
                         if (args.get(1).isPlayerName(true)) {
                             User user = args.get(1).toUser();
                             sendMessageToMovedUser(args, user);
-                            RegisteredServer server = ExProxy.getServer().getServer(args.get(0).getString()).get();
-                            sender.sendPluginMessage(Component.text("Switched player ", ExTextColor.PERSONAL)
-                                    .append(user.getChatNameComponent())
-                                    .append(Component.text(" to server ", ExTextColor.PERSONAL))
-                                    .append(Component.text(server.getServerInfo().getName(), ExTextColor.VALUE)));
+                            RegisteredServer server = ExProxy.getServer()
+                                    .getServer(args.get(0).getString()).get();
+                            sender.sendPluginMessage(
+                                    Component.text("Switched player ", ExTextColor.PERSONAL)
+                                            .append(user.getChatNameComponent())
+                                            .append(Component.text(" to server ",
+                                                    ExTextColor.PERSONAL))
+                                            .append(Component.text(server.getServerInfo().getName(),
+                                                    ExTextColor.VALUE)));
                         }
                     }
                 } else {
@@ -63,12 +68,15 @@ public class CmdServer implements CommandListener<Sender, Argument> {
         RegisteredServer server = ExProxy.getServer().getServer(args.get(0).getString()).get();
         user.connect(server);
         user.setTask(null);
-        user.sendPluginMessage(Plugin.NETWORK, Component.text("Switched to server ", ExTextColor.PERSONAL)
-                .append(Component.text(server.getServerInfo().getName(), ExTextColor.VALUE)));
+        user.sendPluginMessage(Plugin.NETWORK,
+                Component.text("Switched to server ", ExTextColor.PERSONAL)
+                        .append(Component.text(server.getServerInfo().getName(),
+                                ExTextColor.VALUE)));
     }
 
     @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.getLength() == 1) {
             return Network.getCommandHandler().getServerNames();
         }
@@ -81,8 +89,8 @@ public class CmdServer implements CommandListener<Sender, Argument> {
 
     @Override
     public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
-        this.perm = plugin.createPermssionCode("ntw", "exproxy.server.switch");
-        this.otherPerm = plugin.createPermssionCode("ntw", "exproxy.server.switch.other");
+        this.perm = plugin.createPermssionCode("exproxy.server.switch");
+        this.otherPerm = plugin.createPermssionCode("exproxy.server.switch.other");
     }
 
 

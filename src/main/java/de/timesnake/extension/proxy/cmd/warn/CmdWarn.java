@@ -38,11 +38,12 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
         return names;
     }
 
-    private Code.Permission perm;
-    private Code.Help typeNotExists;
+    private Code perm;
+    private Code typeNotExists;
 
     @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (!sender.hasPermission(this.perm)) {
             return;
         }
@@ -70,19 +71,24 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
 
         if (type.equals(Type.CUSTOM)) {
             String message = args.toMessage(1);
-            user.getPlayer().showTitle(Title.title(Component.text("§cWarning"), Component.text(message)));
+            user.getPlayer()
+                    .showTitle(Title.title(Component.text("§cWarning"), Component.text(message)));
         } else {
-            user.getPlayer().showTitle(Title.title(Component.text("§cWarning"), Component.text(type.getText())));
+            user.getPlayer().showTitle(
+                    Title.title(Component.text("§cWarning"), Component.text(type.getText())));
         }
 
         sender.sendPluginMessage(Component.text("Warned player ", ExTextColor.PERSONAL)
                 .append(user.getChatNameComponent()));
         user.sendPluginMessage(Plugin.SYSTEM, Component.text(type.getText(), ExTextColor.WARNING));
-        Network.printText(Plugin.SYSTEM, sender.getChatName() + " warned " + user.getChatNameComponent() + ": " + type.getName());
+        Network.printText(Plugin.SYSTEM,
+                sender.getChatName() + " warned " + user.getChatNameComponent() + ": "
+                        + type.getName());
     }
 
     @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.getLength() == 1) {
             return Network.getCommandHandler().getPlayerNames();
         } else if (args.getLength() == 2) {
@@ -93,8 +99,8 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
 
     @Override
     public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("ntw", "exproxy.warn");
-        this.typeNotExists = plugin.createHelpCode("ntw", "Warn-Type not exists");
+        this.perm = plugin.createPermssionCode("exproxy.warn");
+        this.typeNotExists = plugin.createHelpCode("Warn-Type not exists");
     }
 
     enum Type {

@@ -22,10 +22,11 @@ import net.kyori.adventure.text.Component;
 
 public class CmdResponse implements CommandListener<Sender, Argument> {
 
-    private Code.Permission perm;
+    private Code perm;
 
     @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.isLengthHigherEquals(1, true)) {
             if (sender.hasPermission(this.perm)) {
                 if (sender.isPlayer(true)) {
@@ -51,8 +52,9 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
 
                         Msg.lastPrivateMessageSender.put(receiver, sender.getUser());
                     } else {
-                        sender.sendPluginMessage(Component.text("No open private chat ", ExTextColor.WARNING)
-                                .append(Chat.getMessageCode("H", 2200, Plugin.NETWORK)));
+                        sender.sendPluginMessage(
+                                Component.text("No open private chat ", ExTextColor.WARNING)
+                                        .append(Chat.getMessageCode("H", 2200, Plugin.NETWORK)));
                     }
                 }
             }
@@ -60,7 +62,8 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
     }
 
     @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.getLength() == 1) {
             return Network.getCommandHandler().getPlayerNames();
         }
@@ -69,6 +72,6 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
 
     @Override
     public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
-        this.perm = plugin.createPermssionCode("msg", "exproxy.msg.response");
+        this.perm = plugin.createPermssionCode("exproxy.msg.response");
     }
 }

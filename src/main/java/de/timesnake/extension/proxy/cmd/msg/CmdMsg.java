@@ -21,10 +21,11 @@ import net.kyori.adventure.text.Component;
 
 public class CmdMsg implements CommandListener<Sender, Argument> {
 
-    private Code.Permission perm;
+    private Code perm;
 
     @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (sender.hasPermission(this.perm)) {
             if (args.isLengthHigherEquals(2, true)) {
                 if (args.get(0).isPlayerName(true) && sender.isPlayer(true)) {
@@ -47,7 +48,6 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
                         receiver.playSound(ChannelUserMessage.Sound.PLING);
                     }
 
-
                     Msg.sendMessageToListeners(sender.getUser(), receiver, msg);
                     Msg.lastPrivateMessageSender.put(sender.getUser(), receiver);
                     Msg.lastPrivateMessageSender.put(receiver, sender.getUser());
@@ -57,7 +57,8 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
     }
 
     @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.getLength() == 1) {
             return Network.getCommandHandler().getPlayerNames();
         }
@@ -66,6 +67,6 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
 
     @Override
     public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("msg", "network.msg.msg");
+        this.perm = plugin.createPermssionCode("network.msg.msg");
     }
 }

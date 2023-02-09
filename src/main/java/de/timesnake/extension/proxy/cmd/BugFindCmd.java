@@ -21,10 +21,11 @@ public class BugFindCmd implements CommandListener<Sender, Argument> {
 
     private static final float REWARD = 19;
 
-    private Code.Permission perm;
+    private Code perm;
 
     @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> command, Arguments<Argument> args) {
+    public void onCommand(Sender sender, ExCommand<Sender, Argument> command,
+            Arguments<Argument> args) {
         if (!sender.hasPermission(this.perm)) {
             return;
         }
@@ -40,13 +41,15 @@ public class BugFindCmd implements CommandListener<Sender, Argument> {
         DbUser user = args.get(0).toDbUser();
 
         Network.broadcastMessage(Plugin.NETWORK, Component.text(user.getName(), ExTextColor.VALUE)
-                .append(Component.text(" received " + REWARD + " TimeCoins for reporting a bug", ExTextColor.PUBLIC)));
+                .append(Component.text(" received " + REWARD + " TimeCoins for reporting a bug",
+                        ExTextColor.PUBLIC)));
 
         user.addCoins(REWARD);
     }
 
     @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> exCommand, Arguments<Argument> args) {
+    public List<String> getTabCompletion(ExCommand<Sender, Argument> exCommand,
+            Arguments<Argument> args) {
         if (args.length() == 1) {
             return Network.getCommandHandler().getPlayerNames();
         }
@@ -55,6 +58,6 @@ public class BugFindCmd implements CommandListener<Sender, Argument> {
 
     @Override
     public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
-        this.perm = plugin.createPermssionCode("ntw", "network.bugfind");
+        this.perm = plugin.createPermssionCode("network.bugfind");
     }
 }
