@@ -19,11 +19,12 @@ import net.kyori.adventure.text.Component;
 
 public class CmdService implements CommandListener<Sender, Argument> {
 
-    private Code.Permission perm;
-    private Code.Permission otherPerm;
+    private Code perm;
+    private Code otherPerm;
 
     @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.isLengthEquals(0, false)) {
             if (sender.isPlayer(true)) {
                 if (!sender.hasPermission(this.perm)) {
@@ -31,8 +32,9 @@ public class CmdService implements CommandListener<Sender, Argument> {
                 }
                 User user = sender.getUser();
                 user.setService(!user.isService());
-                sender.sendPluginMessage(Component.text("Updated service-mode to ", ExTextColor.PERSONAL)
-                        .append(Component.text(user.isService(), ExTextColor.VALUE)));
+                sender.sendPluginMessage(
+                        Component.text("Updated service-mode to ", ExTextColor.PERSONAL)
+                                .append(Component.text(user.isService(), ExTextColor.VALUE)));
             }
         } else if (args.isLengthEquals(1, true)) {
             if (!sender.hasPermission(this.otherPerm)) {
@@ -41,13 +43,15 @@ public class CmdService implements CommandListener<Sender, Argument> {
             if (args.get(0).isPlayerName(true)) {
                 User user = args.get(0).toUser();
                 user.setService(!user.isService());
-                user.sendPluginMessage(Plugin.NETWORK, Component.text("Updated service-mode to ", ExTextColor.PERSONAL)
-                        .append(Component.text(user.isService(), ExTextColor.VALUE)));
+                user.sendPluginMessage(Plugin.NETWORK,
+                        Component.text("Updated service-mode to ", ExTextColor.PERSONAL)
+                                .append(Component.text(user.isService(), ExTextColor.VALUE)));
                 if (!sender.getName().equals(user.getName())) {
-                    sender.sendPluginMessage(Component.text("Updated service-mode for player ", ExTextColor.PERSONAL)
-                            .append(user.getChatNameComponent())
-                            .append(Component.text(" to ", ExTextColor.PERSONAL))
-                            .append(Component.text(user.isService(), ExTextColor.VALUE)));
+                    sender.sendPluginMessage(
+                            Component.text("Updated service-mode for player ", ExTextColor.PERSONAL)
+                                    .append(user.getChatNameComponent())
+                                    .append(Component.text(" to ", ExTextColor.PERSONAL))
+                                    .append(Component.text(user.isService(), ExTextColor.VALUE)));
                 }
             }
         } else {
@@ -56,7 +60,8 @@ public class CmdService implements CommandListener<Sender, Argument> {
     }
 
     @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.getLength() == 1) {
             return Network.getCommandHandler().getPlayerNames();
         }
@@ -65,7 +70,7 @@ public class CmdService implements CommandListener<Sender, Argument> {
 
     @Override
     public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
-        this.perm = plugin.createPermssionCode("ser", "exproxy.service");
-        this.otherPerm = plugin.createPermssionCode("ser", "exproxy.service.other");
+        this.perm = plugin.createPermssionCode("exproxy.service");
+        this.otherPerm = plugin.createPermssionCode("exproxy.service.other");
     }
 }
