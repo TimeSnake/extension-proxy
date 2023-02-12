@@ -15,7 +15,7 @@ import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.user.DbUserMail;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public class MailHandler {
                                     .append(Component.text(this.id, ExTextColor.VALUE))
                                     .append(Component.text(")", ExTextColor.PERSONAL)));
                     receiverUser.getAsSender(Plugin.MAILS)
-                            .sendMessageCommandHelp("Show mail", "mail show <id>");
+                            .sendTDMessageCommandHelp("Show mail", "mail show <id>");
                 }
             }
 

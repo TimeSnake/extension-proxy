@@ -9,7 +9,7 @@ import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.Plugin;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
@@ -55,7 +55,7 @@ public class CmdService implements CommandListener<Sender, Argument> {
                 }
             }
         } else {
-            sender.sendMessageCommandHelp("Set mode for player", "service [player]");
+            sender.sendTDMessageCommandHelp("Set mode for player", "service [player]");
         }
     }
 
