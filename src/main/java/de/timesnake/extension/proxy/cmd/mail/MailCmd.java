@@ -19,7 +19,8 @@ public class MailCmd implements CommandListener<Sender, Argument> {
 
 
     @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         MailHandler mailer = new MailHandler(sender);
 
         if (!sender.isPlayer(true)) {
@@ -46,7 +47,8 @@ public class MailCmd implements CommandListener<Sender, Argument> {
                 break;
             case "send":
                 if (!args.isLengthHigherEquals(2, true)) {
-                    sender.sendMessageCommandHelp("Send mail", "mail send <receiverName> {<message>}");
+                    sender.sendTDMessageCommandHelp("Send mail",
+                            "mail send <receiverName> {<message>}");
                     return;
                 }
 
@@ -55,7 +57,8 @@ public class MailCmd implements CommandListener<Sender, Argument> {
                 }
 
                 if (!args.isLengthHigherEquals(3, true)) {
-                    sender.sendMessageCommandHelp("Send mail", "mail send <receiverName> {<message>}");
+                    sender.sendTDMessageCommandHelp("Send mail",
+                            "mail send <receiverName> {<message>}");
                     return;
                 }
 
@@ -73,15 +76,17 @@ public class MailCmd implements CommandListener<Sender, Argument> {
                 mailer.deleteMail();
                 break;
             default:
-                sender.sendMessageCommandHelp("Show mails", "mail show");
-                sender.sendMessageCommandHelp("Show mail", "mail show <id>");
-                sender.sendMessageCommandHelp("Send mail", "mail send <receiverName> {<message>}");
-                sender.sendMessageCommandHelp("Delete mail", "mail delete <id>");
+                sender.sendTDMessageCommandHelp("Show mails", "mail show");
+                sender.sendTDMessageCommandHelp("Show mail", "mail show <id>");
+                sender.sendTDMessageCommandHelp("Send mail",
+                        "mail send <receiverName> {<message>}");
+                sender.sendTDMessageCommandHelp("Delete mail", "mail delete <id>");
         }
     }
 
     @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         int length = args.getLength();
         if (length == 1) {
             return List.of("send", "show", "delete");
