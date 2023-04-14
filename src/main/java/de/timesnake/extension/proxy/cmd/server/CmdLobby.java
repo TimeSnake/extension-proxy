@@ -70,7 +70,7 @@ public class CmdLobby implements CommandListener<Sender, Argument> {
     public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
             Arguments<Argument> args) {
         if (args.getLength() == 1) {
-            return Network.getCommandHandler().getPlayerNames();
+            return Network.getCommandManager().getPlayerNames();
         }
         return null;
     }

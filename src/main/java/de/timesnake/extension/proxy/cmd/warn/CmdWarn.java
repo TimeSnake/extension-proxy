@@ -90,7 +90,7 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
     public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
             Arguments<Argument> args) {
         if (args.getLength() == 1) {
-            return Network.getCommandHandler().getPlayerNames();
+            return Network.getCommandManager().getPlayerNames();
         } else if (args.getLength() == 2) {
             return getTypeNames();
         }

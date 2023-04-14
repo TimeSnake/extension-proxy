@@ -30,11 +30,8 @@ import de.timesnake.extension.proxy.cmd.warn.CmdWarn;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Plugin(id = "extension-proxy", name = "ExProxy", version = "1.0-SNAPSHOT",
-        url = "https://git.timesnake.de", authors = {"MarkusNils"},
-        dependencies = {
-                @Dependency(id = "basic-proxy")
-        })
+@Plugin(id = "extension-proxy", name = "ExProxy", version = "1.0-SNAPSHOT", url = "https://git.timesnake.de", authors = {
+        "MarkusNils"}, dependencies = {@Dependency(id = "basic-proxy")})
 public class ExProxy {
 
     public static ExProxy getPlugin() {
@@ -75,33 +72,35 @@ public class ExProxy {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         plugin = this;
 
-        Network.getCommandHandler().addCommand(this, "service", new CmdService(),
+        Network.getCommandManager().addCommand(this, "service", new CmdService(),
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, "msgspy", new CmdMsgSpy(),
+        Network.getCommandManager().addCommand(this, "msgspy", new CmdMsgSpy(),
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, "msg", List.of("tell", "message", "pm"), new CmdMsg(),
+        Network.getCommandManager()
+                .addCommand(this, "msg", List.of("tell", "message", "pm"), new CmdMsg(),
+                        de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        Network.getCommandManager().addCommand(this, "r", List.of("response"), new CmdResponse(),
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, "r", List.of("response"), new CmdResponse(),
+        Network.getCommandManager().addCommand(this, "force", List.of("sudo"), new CmdForce(),
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, "force", List.of("sudo"), new CmdForce(),
+        Network.getCommandManager()
+                .addCommand(this, "lobby", List.of("l", "hub", "menu", "leave"), new CmdLobby(),
+                        de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        Network.getCommandManager().addCommand(this, "server", new CmdServer(),
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, "lobby", List.of("l", "hub", "menu", "leave"), new CmdLobby(),
-                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, "server", new CmdServer(),
-                de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, "switch", new CmdServer(),
+        Network.getCommandManager().addCommand(this, "switch", new CmdServer(),
                 de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
 
-        Network.getCommandHandler().addCommand(this, "mail", new MailCmd(),
+        Network.getCommandManager().addCommand(this, "mail", new MailCmd(),
                 de.timesnake.basic.proxy.util.chat.Plugin.MAILS);
-        Network.getCommandHandler().addCommand(this, "broadcast", new BroadcastCmd(),
+        Network.getCommandManager().addCommand(this, "broadcast", new BroadcastCmd(),
                 de.timesnake.library.extension.util.chat.Plugin.NETWORK);
-        Network.getCommandHandler().addCommand(this, "warn", new CmdWarn(),
+        Network.getCommandManager().addCommand(this, "warn", new CmdWarn(),
                 de.timesnake.library.extension.util.chat.Plugin.SYSTEM);
-        Network.getCommandHandler().addCommand(this, "ping", new PingCmd(),
+        Network.getCommandManager().addCommand(this, "ping", new PingCmd(),
                 de.timesnake.library.extension.util.chat.Plugin.SYSTEM);
 
-        Network.getCommandHandler().addCommand(this, "bugfind", new BugFindCmd(),
+        Network.getCommandManager().addCommand(this, "bugfind", new BugFindCmd(),
                 de.timesnake.library.extension.util.chat.Plugin.NETWORK);
 
         server.getEventManager().register(this, new MailHandler());

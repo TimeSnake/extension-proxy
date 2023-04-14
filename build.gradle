@@ -29,7 +29,7 @@ dependencies {
 }
 
 group = project.group
-version = '1.0-SNAPSHOT'
+version = '1.0.1-SNAPSHOT'
 archivesBaseName = 'extension-proxy'
 
 task deleteOldPluginJar(type: Delete) {

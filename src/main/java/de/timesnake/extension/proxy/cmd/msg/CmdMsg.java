@@ -9,17 +9,39 @@ import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.channel.util.message.ChannelUserMessage;
+import de.timesnake.library.basic.util.Loggers;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Chat;
 import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ChatDivider;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
+import java.util.HashMap;
 import java.util.List;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 public class CmdMsg implements CommandListener<Sender, Argument> {
+
+    public static void sendMessageToListeners(User sender, User receiver, String msg) {
+        Component holeMsg = Chat.getSenderPlugin(
+                        de.timesnake.basic.proxy.util.chat.Plugin.PRIVATE_MESSAGES)
+                .append(sender.getChatNameComponent())
+                .append(Component.text(" " + ChatDivider.COLORED_IN))
+                .append(receiver.getChatNameComponent())
+                .append(Component.text(ChatDivider.SPLITTER + " "))
+                .append(Component.text(msg, ExTextColor.PERSONAL));
+
+        for (User user : Network.getPrivateMessageListeners()) {
+            user.sendMessage(holeMsg);
+        }
+
+        Loggers.PRIVATE_MESSAGES.info(PlainTextComponentSerializer.plainText().serialize(holeMsg));
+    }
+
+    public static HashMap<User, User> lastPrivateMessageSender = new HashMap<>();
 
     private Code perm;
 
@@ -48,9 +70,9 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
                         receiver.playSound(ChannelUserMessage.Sound.PLING);
                     }
 
-                    Msg.sendMessageToListeners(sender.getUser(), receiver, msg);
-                    Msg.lastPrivateMessageSender.put(sender.getUser(), receiver);
-                    Msg.lastPrivateMessageSender.put(receiver, sender.getUser());
+                    sendMessageToListeners(sender.getUser(), receiver, msg);
+                    lastPrivateMessageSender.put(sender.getUser(), receiver);
+                    lastPrivateMessageSender.put(receiver, sender.getUser());
                 }
             }
         }
@@ -60,7 +82,7 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
     public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
             Arguments<Argument> args) {
         if (args.getLength() == 1) {
-            return Network.getCommandHandler().getPlayerNames();
+            return Network.getCommandManager().getPlayerNames();
         }
         return List.of();
     }

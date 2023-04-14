@@ -30,8 +30,8 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
         if (args.isLengthHigherEquals(1, true)) {
             if (sender.hasPermission(this.perm)) {
                 if (sender.isPlayer(true)) {
-                    if (Msg.lastPrivateMessageSender.containsKey(sender.getUser())) {
-                        User receiver = Msg.lastPrivateMessageSender.get(sender.getUser());
+                    if (CmdMsg.lastPrivateMessageSender.containsKey(sender.getUser())) {
+                        User receiver = CmdMsg.lastPrivateMessageSender.get(sender.getUser());
                         String msg = args.toMessage();
 
                         if (!sender.getUser().equals(receiver)) {
@@ -50,7 +50,7 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
                             receiver.playSound(ChannelUserMessage.Sound.PLING);
                         }
 
-                        Msg.lastPrivateMessageSender.put(receiver, sender.getUser());
+                        CmdMsg.lastPrivateMessageSender.put(receiver, sender.getUser());
                     } else {
                         sender.sendPluginMessage(
                                 Component.text("No open private chat ", ExTextColor.WARNING)
@@ -65,7 +65,7 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
     public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
             Arguments<Argument> args) {
         if (args.getLength() == 1) {
-            return Network.getCommandHandler().getPlayerNames();
+            return Network.getCommandManager().getPlayerNames();
         }
         return List.of();
     }
