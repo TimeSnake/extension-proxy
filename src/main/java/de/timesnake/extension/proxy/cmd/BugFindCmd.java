@@ -51,7 +51,7 @@ public class BugFindCmd implements CommandListener<Sender, Argument> {
     public List<String> getTabCompletion(ExCommand<Sender, Argument> exCommand,
             Arguments<Argument> args) {
         if (args.length() == 1) {
-            return Network.getCommandHandler().getPlayerNames();
+            return Network.getCommandManager().getPlayerNames();
         }
         return List.of();
     }

@@ -92,7 +92,7 @@ public class MailCmd implements CommandListener<Sender, Argument> {
             return List.of("send", "show", "delete");
         }
         if (length == 2) {
-            return Network.getCommandHandler().getPlayerNames();
+            return Network.getCommandManager().getPlayerNames();
         }
         return null;
     }
