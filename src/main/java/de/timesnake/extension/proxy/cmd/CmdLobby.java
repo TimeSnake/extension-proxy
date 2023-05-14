@@ -2,7 +2,7 @@
  * Copyright (C) 2023 timesnake
  */
 
-package de.timesnake.extension.proxy.cmd.server;
+package de.timesnake.extension.proxy.cmd;
 
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import de.timesnake.basic.proxy.util.Network;

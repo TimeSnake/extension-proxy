@@ -2,7 +2,7 @@
  * Copyright (C) 2023 timesnake
  */
 
-package de.timesnake.extension.proxy.cmd.mail;
+package de.timesnake.extension.proxy.cmd;
 
 import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
@@ -33,7 +33,7 @@ public class MailCmd implements CommandListener<Sender, Argument> {
         }
 
         switch (args.getString(0)) {
-            case "show":
+            case "show" -> {
                 if (args.isLengthEquals(1, false)) {
                     mailer.printMails();
                 } else {
@@ -44,43 +44,39 @@ public class MailCmd implements CommandListener<Sender, Argument> {
                     mailer.setId(args.get(1).toInt());
                     mailer.printMail();
                 }
-                break;
-            case "send":
+            }
+            case "send" -> {
                 if (!args.isLengthHigherEquals(2, true)) {
                     sender.sendTDMessageCommandHelp("Send mail",
                             "mail send <receiverName> {<message>}");
                     return;
                 }
-
                 if (!args.get(1).isPlayerDatabaseName(true)) {
                     return;
                 }
-
                 if (!args.isLengthHigherEquals(3, true)) {
                     sender.sendTDMessageCommandHelp("Send mail",
                             "mail send <receiverName> {<message>}");
                     return;
                 }
-
                 UUID uuid = Database.getUsers().getUser(args.getString(1)).getUniqueId();
                 String msg = args.toMessage(2);
-
                 mailer.sendMail(uuid, msg);
-                break;
-            case "delete":
+            }
+            case "delete" -> {
                 if (!args.get(1).isInt(true)) {
                     return;
                 }
-
                 mailer.setId(args.get(1).toInt());
                 mailer.deleteMail();
-                break;
-            default:
+            }
+            default -> {
                 sender.sendTDMessageCommandHelp("Show mails", "mail show");
                 sender.sendTDMessageCommandHelp("Show mail", "mail show <id>");
                 sender.sendTDMessageCommandHelp("Send mail",
                         "mail send <receiverName> {<message>}");
                 sender.sendTDMessageCommandHelp("Delete mail", "mail delete <id>");
+            }
         }
     }
 
