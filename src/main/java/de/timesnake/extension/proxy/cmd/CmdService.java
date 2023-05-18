@@ -19,58 +19,58 @@ import net.kyori.adventure.text.Component;
 
 public class CmdService implements CommandListener<Sender, Argument> {
 
-    private Code perm;
-    private Code otherPerm;
+  private Code perm;
+  private Code otherPerm;
 
-    @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (args.isLengthEquals(0, false)) {
-            if (sender.isPlayer(true)) {
-                if (!sender.hasPermission(this.perm)) {
-                    return;
-                }
-                User user = sender.getUser();
-                user.setService(!user.isService());
-                sender.sendPluginMessage(
-                        Component.text("Updated service-mode to ", ExTextColor.PERSONAL)
-                                .append(Component.text(user.isService(), ExTextColor.VALUE)));
-            }
-        } else if (args.isLengthEquals(1, true)) {
-            if (!sender.hasPermission(this.otherPerm)) {
-                return;
-            }
-            if (args.get(0).isPlayerName(true)) {
-                User user = args.get(0).toUser();
-                user.setService(!user.isService());
-                user.sendPluginMessage(Plugin.NETWORK,
-                        Component.text("Updated service-mode to ", ExTextColor.PERSONAL)
-                                .append(Component.text(user.isService(), ExTextColor.VALUE)));
-                if (!sender.getName().equals(user.getName())) {
-                    sender.sendPluginMessage(
-                            Component.text("Updated service-mode for player ", ExTextColor.PERSONAL)
-                                    .append(user.getChatNameComponent())
-                                    .append(Component.text(" to ", ExTextColor.PERSONAL))
-                                    .append(Component.text(user.isService(), ExTextColor.VALUE)));
-                }
-            }
-        } else {
-            sender.sendTDMessageCommandHelp("Set mode for player", "service [player]");
+  @Override
+  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (args.isLengthEquals(0, false)) {
+      if (sender.isPlayer(true)) {
+        if (!sender.hasPermission(this.perm)) {
+          return;
         }
-    }
-
-    @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (args.getLength() == 1) {
-            return Network.getCommandManager().getPlayerNames();
+        User user = sender.getUser();
+        user.setService(!user.isService());
+        sender.sendPluginMessage(
+            Component.text("Updated service-mode to ", ExTextColor.PERSONAL)
+                .append(Component.text(user.isService(), ExTextColor.VALUE)));
+      }
+    } else if (args.isLengthEquals(1, true)) {
+      if (!sender.hasPermission(this.otherPerm)) {
+        return;
+      }
+      if (args.get(0).isPlayerName(true)) {
+        User user = args.get(0).toUser();
+        user.setService(!user.isService());
+        user.sendPluginMessage(Plugin.NETWORK,
+            Component.text("Updated service-mode to ", ExTextColor.PERSONAL)
+                .append(Component.text(user.isService(), ExTextColor.VALUE)));
+        if (!sender.getName().equals(user.getName())) {
+          sender.sendPluginMessage(
+              Component.text("Updated service-mode for player ", ExTextColor.PERSONAL)
+                  .append(user.getChatNameComponent())
+                  .append(Component.text(" to ", ExTextColor.PERSONAL))
+                  .append(Component.text(user.isService(), ExTextColor.VALUE)));
         }
-        return null;
+      }
+    } else {
+      sender.sendTDMessageCommandHelp("Set mode for player", "service [player]");
     }
+  }
 
-    @Override
-    public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
-        this.perm = plugin.createPermssionCode("exproxy.service");
-        this.otherPerm = plugin.createPermssionCode("exproxy.service.other");
+  @Override
+  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (args.getLength() == 1) {
+      return Network.getCommandManager().getPlayerNames();
     }
+    return null;
+  }
+
+  @Override
+  public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
+    this.perm = plugin.createPermssionCode("exproxy.service");
+    this.otherPerm = plugin.createPermssionCode("exproxy.service.other");
+  }
 }

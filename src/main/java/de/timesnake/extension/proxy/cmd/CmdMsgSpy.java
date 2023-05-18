@@ -18,34 +18,34 @@ import net.kyori.adventure.text.Component;
 
 public class CmdMsgSpy implements CommandListener<Sender, Argument> {
 
-    private Code perm;
+  private Code perm;
 
-    @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (sender.hasPermission(this.perm)) {
-            if (sender.isPlayer(true)) {
-                User user = sender.getUser();
-                user.setListeningPrivateMessages(!user.isListeningPrivateMessages());
-                if (user.isListeningPrivateMessages()) {
-                    sender.sendPluginMessage(Component.text("Enabled private-message messages",
-                            ExTextColor.PERSONAL));
-                } else {
-                    sender.sendPluginMessage(Component.text("Disabled private-message messages",
-                            ExTextColor.PERSONAL));
-                }
-            }
+  @Override
+  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (sender.hasPermission(this.perm)) {
+      if (sender.isPlayer(true)) {
+        User user = sender.getUser();
+        user.setListeningPrivateMessages(!user.isListeningPrivateMessages());
+        if (user.isListeningPrivateMessages()) {
+          sender.sendPluginMessage(Component.text("Enabled private-message messages",
+              ExTextColor.PERSONAL));
+        } else {
+          sender.sendPluginMessage(Component.text("Disabled private-message messages",
+              ExTextColor.PERSONAL));
         }
+      }
     }
+  }
 
-    @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        return null;
-    }
+  @Override
+  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    return null;
+  }
 
-    @Override
-    public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("exproxy.msg.spy");
-    }
+  @Override
+  public void loadCodes(Plugin plugin) {
+    this.perm = plugin.createPermssionCode("exproxy.msg.spy");
+  }
 }

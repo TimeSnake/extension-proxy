@@ -18,31 +18,31 @@ import net.kyori.adventure.text.Component;
 
 public class BroadcastCmd implements CommandListener<Sender, Argument> {
 
-    private Code perm;
+  private Code perm;
 
-    @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (!sender.hasPermission(this.perm)) {
-            return;
-        }
-
-        if (!args.isLengthHigherEquals(1, true)) {
-            return;
-        }
-
-        String message = args.toMessage();
-        Network.broadcastMessage(Plugin.INFO, Component.text(message, ExTextColor.WARNING));
+  @Override
+  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (!sender.hasPermission(this.perm)) {
+      return;
     }
 
-    @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        return null;
+    if (!args.isLengthHigherEquals(1, true)) {
+      return;
     }
 
-    @Override
-    public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("exproxy.broadcast");
-    }
+    String message = args.toMessage();
+    Network.broadcastMessage(Plugin.INFO, Component.text(message, ExTextColor.WARNING));
+  }
+
+  @Override
+  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    return null;
+  }
+
+  @Override
+  public void loadCodes(Plugin plugin) {
+    this.perm = plugin.createPermssionCode("exproxy.broadcast");
+  }
 }

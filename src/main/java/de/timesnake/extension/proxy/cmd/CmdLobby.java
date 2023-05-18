@@ -21,63 +21,63 @@ import net.kyori.adventure.text.Component;
 
 public class CmdLobby implements CommandListener<Sender, Argument> {
 
-    private Code perm;
-    private Code otherPerm;
+  private Code perm;
+  private Code otherPerm;
 
-    @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (args.isLengthEquals(0, false)) {
-            if (sender.hasPermission(this.perm)) {
-                if (sender.isPlayer(true)) {
-                    User user = sender.getUser();
-                    RegisteredServer server =
-                            ExProxy.getServer()
-                                    .getServer(user.getDatabase().getServerLobby().getName()).get();
-                    user.connect(server);
-                    user.sendPluginMessage(Plugin.NETWORK,
-                            Component.text("Switched to lobby ", ExTextColor.PERSONAL)
-                                    .append(Component.text(server.getServerInfo().getName(),
-                                            ExTextColor.VALUE)));
-                }
-            }
-        } else if (args.isLengthEquals(1, true)) {
-            if (sender.hasPermission(this.otherPerm)) {
-                if (args.get(0).isPlayerName(true)) {
-                    User user = args.get(0).toUser();
-                    RegisteredServer server =
-                            ExProxy.getServer()
-                                    .getServer(user.getDatabase().getServerLobby().getName()).get();
-                    user.connect(server);
-                    user.sendPluginMessage(Plugin.NETWORK,
-                            Component.text("Switched to lobby ", ExTextColor.PERSONAL)
-                                    .append(Component.text(server.getServerInfo().getName(),
-                                            ExTextColor.VALUE)));
-                    sender.sendPluginMessage(
-                            Component.text("Switched player ", ExTextColor.PERSONAL)
-                                    .append(user.getChatNameComponent())
-                                    .append(Component.text(" to lobby ", ExTextColor.PERSONAL))
-                                    .append(Component.text(server.getServerInfo().getName(),
-                                            ExTextColor.VALUE)));
-                }
-            }
-
+  @Override
+  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (args.isLengthEquals(0, false)) {
+      if (sender.hasPermission(this.perm)) {
+        if (sender.isPlayer(true)) {
+          User user = sender.getUser();
+          RegisteredServer server =
+              ExProxy.getServer()
+                  .getServer(user.getDatabase().getServerLobby().getName()).get();
+          user.connect(server);
+          user.sendPluginMessage(Plugin.NETWORK,
+              Component.text("Switched to lobby ", ExTextColor.PERSONAL)
+                  .append(Component.text(server.getServerInfo().getName(),
+                      ExTextColor.VALUE)));
         }
-
-    }
-
-    @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (args.getLength() == 1) {
-            return Network.getCommandManager().getPlayerNames();
+      }
+    } else if (args.isLengthEquals(1, true)) {
+      if (sender.hasPermission(this.otherPerm)) {
+        if (args.get(0).isPlayerName(true)) {
+          User user = args.get(0).toUser();
+          RegisteredServer server =
+              ExProxy.getServer()
+                  .getServer(user.getDatabase().getServerLobby().getName()).get();
+          user.connect(server);
+          user.sendPluginMessage(Plugin.NETWORK,
+              Component.text("Switched to lobby ", ExTextColor.PERSONAL)
+                  .append(Component.text(server.getServerInfo().getName(),
+                      ExTextColor.VALUE)));
+          sender.sendPluginMessage(
+              Component.text("Switched player ", ExTextColor.PERSONAL)
+                  .append(user.getChatNameComponent())
+                  .append(Component.text(" to lobby ", ExTextColor.PERSONAL))
+                  .append(Component.text(server.getServerInfo().getName(),
+                      ExTextColor.VALUE)));
         }
-        return null;
+      }
+
     }
 
-    @Override
-    public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("exproxy.server.lobby");
-        this.otherPerm = plugin.createPermssionCode("exproxy.server.lobby.other");
+  }
+
+  @Override
+  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (args.getLength() == 1) {
+      return Network.getCommandManager().getPlayerNames();
     }
+    return null;
+  }
+
+  @Override
+  public void loadCodes(Plugin plugin) {
+    this.perm = plugin.createPermssionCode("exproxy.server.lobby");
+    this.otherPerm = plugin.createPermssionCode("exproxy.server.lobby.other");
+  }
 }

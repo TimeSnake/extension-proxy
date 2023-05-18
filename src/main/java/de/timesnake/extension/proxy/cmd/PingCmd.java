@@ -17,23 +17,24 @@ import net.kyori.adventure.text.Component;
 
 public class PingCmd implements CommandListener<Sender, Argument> {
 
-    @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
-        if (!sender.isPlayer(true)) {
-            return;
-        }
-
-        sender.sendPluginMessage(Component.text("Pong! ", ExTextColor.PERSONAL)
-                .append(Component.text("(" + sender.getUser().getPlayer().getPing() + "ms)", ExTextColor.VALUE)));
+  @Override
+  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    if (!sender.isPlayer(true)) {
+      return;
     }
 
-    @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
-        return new ArrayList<>();
-    }
+    sender.sendPluginMessage(Component.text("Pong! ", ExTextColor.PERSONAL)
+        .append(Component.text("(" + sender.getUser().getPlayer().getPing() + "ms)",
+            ExTextColor.VALUE)));
+  }
 
-    @Override
-    public void loadCodes(Plugin plugin) {
+  @Override
+  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    return new ArrayList<>();
+  }
 
-    }
+  @Override
+  public void loadCodes(Plugin plugin) {
+
+  }
 }
