@@ -25,70 +25,70 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 public class CmdMsg implements CommandListener<Sender, Argument> {
 
-    public static void sendMessageToListeners(User sender, User receiver, String msg) {
-        Component holeMsg = Chat.getSenderPlugin(
-                        de.timesnake.basic.proxy.util.chat.Plugin.PRIVATE_MESSAGES)
-                .append(sender.getChatNameComponent())
-                .append(Component.text(" " + ChatDivider.COLORED_IN))
-                .append(receiver.getChatNameComponent())
-                .append(Component.text(ChatDivider.SPLITTER + " "))
-                .append(Component.text(msg, ExTextColor.PERSONAL));
+  public static void sendMessageToListeners(User sender, User receiver, String msg) {
+    Component holeMsg = Chat.getSenderPlugin(
+            de.timesnake.basic.proxy.util.chat.Plugin.PRIVATE_MESSAGES)
+        .append(sender.getChatNameComponent())
+        .append(Component.text(" " + ChatDivider.COLORED_IN))
+        .append(receiver.getChatNameComponent())
+        .append(Component.text(ChatDivider.SPLITTER + " "))
+        .append(Component.text(msg, ExTextColor.PERSONAL));
 
-        for (User user : Network.getPrivateMessageListeners()) {
-            user.sendMessage(holeMsg);
+    for (User user : Network.getPrivateMessageListeners()) {
+      user.sendMessage(holeMsg);
+    }
+
+    Loggers.PRIVATE_MESSAGES.info(PlainTextComponentSerializer.plainText().serialize(holeMsg));
+  }
+
+  public static HashMap<User, User> lastPrivateMessageSender = new HashMap<>();
+
+  private Code perm;
+
+  @Override
+  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (sender.hasPermission(this.perm)) {
+      if (args.isLengthHigherEquals(2, true)) {
+        if (args.get(0).isPlayerName(true) && sender.isPlayer(true)) {
+          User receiver = args.get(0).toUser();
+          String msg = args.toMessage(1);
+
+          if (!sender.getUser().equals(receiver)) {
+            sender.sendMessage(receiver.getChatNameComponent()
+                .append(ChatDivider.COLORED_OUT)
+                .append(Component.text(msg, ExTextColor.PERSONAL)));
+
+            receiver.sendMessage(sender.getUser().getChatNameComponent()
+                .append(ChatDivider.COLORED_IN)
+                .append(Component.text(msg, ExTextColor.PERSONAL)));
+            receiver.playSound(ChannelUserMessage.Sound.PLING);
+          } else {
+            sender.sendMessage(receiver.getChatNameComponent()
+                .append(ChatDivider.COLORED_OUT_IN)
+                .append(Component.text(msg, ExTextColor.PERSONAL)));
+            receiver.playSound(ChannelUserMessage.Sound.PLING);
+          }
+
+          sendMessageToListeners(sender.getUser(), receiver, msg);
+          lastPrivateMessageSender.put(sender.getUser(), receiver);
+          lastPrivateMessageSender.put(receiver, sender.getUser());
         }
-
-        Loggers.PRIVATE_MESSAGES.info(PlainTextComponentSerializer.plainText().serialize(holeMsg));
+      }
     }
+  }
 
-    public static HashMap<User, User> lastPrivateMessageSender = new HashMap<>();
-
-    private Code perm;
-
-    @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (sender.hasPermission(this.perm)) {
-            if (args.isLengthHigherEquals(2, true)) {
-                if (args.get(0).isPlayerName(true) && sender.isPlayer(true)) {
-                    User receiver = args.get(0).toUser();
-                    String msg = args.toMessage(1);
-
-                    if (!sender.getUser().equals(receiver)) {
-                        sender.sendMessage(receiver.getChatNameComponent()
-                                .append(ChatDivider.COLORED_OUT)
-                                .append(Component.text(msg, ExTextColor.PERSONAL)));
-
-                        receiver.sendMessage(sender.getUser().getChatNameComponent()
-                                .append(ChatDivider.COLORED_IN)
-                                .append(Component.text(msg, ExTextColor.PERSONAL)));
-                        receiver.playSound(ChannelUserMessage.Sound.PLING);
-                    } else {
-                        sender.sendMessage(receiver.getChatNameComponent()
-                                .append(ChatDivider.COLORED_OUT_IN)
-                                .append(Component.text(msg, ExTextColor.PERSONAL)));
-                        receiver.playSound(ChannelUserMessage.Sound.PLING);
-                    }
-
-                    sendMessageToListeners(sender.getUser(), receiver, msg);
-                    lastPrivateMessageSender.put(sender.getUser(), receiver);
-                    lastPrivateMessageSender.put(receiver, sender.getUser());
-                }
-            }
-        }
+  @Override
+  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (args.getLength() == 1) {
+      return Network.getCommandManager().getPlayerNames();
     }
+    return List.of();
+  }
 
-    @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (args.getLength() == 1) {
-            return Network.getCommandManager().getPlayerNames();
-        }
-        return List.of();
-    }
-
-    @Override
-    public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("network.msg.msg");
-    }
+  @Override
+  public void loadCodes(Plugin plugin) {
+    this.perm = plugin.createPermssionCode("network.msg.msg");
+  }
 }
