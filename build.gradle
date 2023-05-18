@@ -1,5 +1,11 @@
+group = project.group
+version = '1.0.1-SNAPSHOT'
+archivesBaseName = 'extension-proxy'
+var projectId = 28
+
 repositories {
   mavenLocal()
+  mavenCentral()
   maven {
     url = uri 'https://papermc.io/repo/repository/maven-public/'
   }
@@ -28,10 +34,6 @@ dependencies {
   annotationProcessor project.velocity
 }
 
-group = project.group
-version = '1.0.1-SNAPSHOT'
-archivesBaseName = 'extension-proxy'
-
 task deleteOldPluginJar(type: Delete) {
   delete fileTree(dir: "${project.plugins_dir}", include: "**/${archivesBaseName}-*.jar")
   onlyIf {
@@ -49,3 +51,15 @@ task copyJarToPlugins(type: Copy) {
 
 copyJarToPlugins.dependsOn(deleteOldPluginJar)
 jar.finalizedBy(copyJarToPlugins)
+
+publishing {
+  repositories {
+    maven {
+      url getDeployUrl(projectId)
+      credentials {
+        username = deploy_token_name
+        password = deploy_token_key
+      }
+    }
+  }
+}
