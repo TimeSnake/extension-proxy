@@ -14,18 +14,19 @@ import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
-import java.util.List;
 import net.kyori.adventure.text.Component;
+
+import java.util.List;
 
 public class BugFindCmd implements CommandListener<Sender, Argument> {
 
-  private static final float REWARD = 19;
+  private static final float REWARD = 20;
 
   private Code perm;
 
   @Override
   public void onCommand(Sender sender, ExCommand<Sender, Argument> command,
-      Arguments<Argument> args) {
+                        Arguments<Argument> args) {
     if (!sender.hasPermission(this.perm)) {
       return;
     }
@@ -49,7 +50,7 @@ public class BugFindCmd implements CommandListener<Sender, Argument> {
 
   @Override
   public List<String> getTabCompletion(ExCommand<Sender, Argument> exCommand,
-      Arguments<Argument> args) {
+                                       Arguments<Argument> args) {
     if (args.length() == 1) {
       return Network.getCommandManager().getPlayerNames();
     }
