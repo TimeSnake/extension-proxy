@@ -14,19 +14,8 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.PluginManager;
 import com.velocitypowered.api.proxy.ProxyServer;
 import de.timesnake.basic.proxy.util.Network;
-import de.timesnake.extension.proxy.cmd.BroadcastCmd;
-import de.timesnake.extension.proxy.cmd.BugFindCmd;
-import de.timesnake.extension.proxy.cmd.CmdForce;
-import de.timesnake.extension.proxy.cmd.CmdLobby;
-import de.timesnake.extension.proxy.cmd.CmdMsg;
-import de.timesnake.extension.proxy.cmd.CmdMsgSpy;
-import de.timesnake.extension.proxy.cmd.CmdResponse;
-import de.timesnake.extension.proxy.cmd.CmdServer;
-import de.timesnake.extension.proxy.cmd.CmdService;
-import de.timesnake.extension.proxy.cmd.CmdWarn;
-import de.timesnake.extension.proxy.cmd.MailCmd;
-import de.timesnake.extension.proxy.cmd.MailHandler;
-import de.timesnake.extension.proxy.cmd.PingCmd;
+import de.timesnake.extension.proxy.cmd.*;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -74,7 +63,7 @@ public class ExProxy {
 
     Network.getCommandManager().addCommand(this, "service", new CmdService(),
         de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
-    Network.getCommandManager().addCommand(this, "msgspy", new CmdMsgSpy(),
+    Network.getCommandManager().addCommand(this, "msgx", new CmdMsgSpy(),
         de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
     Network.getCommandManager()
         .addCommand(this, "msg", List.of("tell", "message", "pm"), new CmdMsg(),
