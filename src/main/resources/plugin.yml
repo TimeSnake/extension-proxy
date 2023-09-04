@@ -16,7 +16,7 @@ commands:
   message:
   pm:
   r:
-  msgspy:
+  msgx:
   service:
   mail:
   broadcast:
