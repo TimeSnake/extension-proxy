@@ -8,16 +8,18 @@ import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
+import de.timesnake.library.basic.util.Loggers;
 import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.CommandListener;
 import de.timesnake.library.extension.util.cmd.ExCommand;
-import java.util.ArrayList;
-import java.util.List;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CmdWarn implements CommandListener<Sender, Argument> {
 
@@ -42,8 +44,7 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
   private Code typeNotExists;
 
   @Override
-  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
+  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
     if (!sender.hasPermission(this.perm)) {
       return;
     }
@@ -71,24 +72,18 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
 
     if (type.equals(Type.CUSTOM)) {
       String message = args.toMessage(1);
-      user.getPlayer()
-          .showTitle(Title.title(Component.text("§cWarning"), Component.text(message)));
+      user.getPlayer().showTitle(Title.title(Component.text("§cWarning"), Component.text(message)));
     } else {
-      user.getPlayer().showTitle(
-          Title.title(Component.text("§cWarning"), Component.text(type.getText())));
+      user.getPlayer().showTitle(Title.title(Component.text("§cWarning"), Component.text(type.getText())));
     }
 
-    sender.sendPluginMessage(Component.text("Warned player ", ExTextColor.PERSONAL)
-        .append(user.getChatNameComponent()));
+    sender.sendPluginMessage(Component.text("Warned player ", ExTextColor.PERSONAL).append(user.getChatNameComponent()));
     user.sendPluginMessage(Plugin.SYSTEM, Component.text(type.getText(), ExTextColor.WARNING));
-    Network.printText(Plugin.SYSTEM,
-        sender.getChatName() + " warned " + user.getChatNameComponent() + ": "
-            + type.getName());
+    Loggers.PUNISH.info("'" + sender.getChatName() + "' warned '" + user.getChatNameComponent() + "': " + type.getName());
   }
 
   @Override
-  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
+  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
     if (args.getLength() == 1) {
       return Network.getCommandManager().getPlayerNames();
     } else if (args.getLength() == 2) {
