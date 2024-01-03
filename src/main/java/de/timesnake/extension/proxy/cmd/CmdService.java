@@ -4,27 +4,21 @@
 
 package de.timesnake.extension.proxy.cmd;
 
-import de.timesnake.basic.proxy.util.Network;
-import de.timesnake.basic.proxy.util.chat.Argument;
-import de.timesnake.basic.proxy.util.chat.Plugin;
-import de.timesnake.basic.proxy.util.chat.Sender;
+import de.timesnake.basic.proxy.util.chat.*;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.commands.PluginCommand;
+import de.timesnake.library.commands.simple.Arguments;
 import de.timesnake.library.extension.util.chat.Code;
-import de.timesnake.library.extension.util.cmd.Arguments;
-import de.timesnake.library.extension.util.cmd.CommandListener;
-import de.timesnake.library.extension.util.cmd.ExCommand;
-import java.util.List;
 import net.kyori.adventure.text.Component;
 
-public class CmdService implements CommandListener<Sender, Argument> {
+public class CmdService implements CommandListener {
 
-  private Code perm;
-  private Code otherPerm;
+  private final Code perm = Plugin.NETWORK.createPermssionCode("exproxy.service");
+  private final Code otherPerm = Plugin.NETWORK.createPermssionCode("exproxy.service.other");
 
   @Override
-  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
+  public void onCommand(Sender sender, PluginCommand cmd, Arguments<Argument> args) {
     if (args.isLengthEquals(0, false)) {
       if (sender.isPlayer(true)) {
         if (!sender.hasPermission(this.perm)) {
@@ -60,17 +54,13 @@ public class CmdService implements CommandListener<Sender, Argument> {
   }
 
   @Override
-  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
-    if (args.getLength() == 1) {
-      return Network.getCommandManager().getPlayerNames();
-    }
-    return null;
+  public Completion getTabCompletion() {
+    return new Completion(this.perm)
+        .addArgument(Completion.ofPlayerNames().permission(this.otherPerm));
   }
 
   @Override
-  public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
-    this.perm = plugin.createPermssionCode("exproxy.service");
-    this.otherPerm = plugin.createPermssionCode("exproxy.service.other");
+  public String getPermission() {
+    return this.perm.getPermission();
   }
 }

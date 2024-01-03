@@ -16,12 +16,13 @@ import de.timesnake.database.util.Database;
 import de.timesnake.database.util.object.TooLongEntryException;
 import de.timesnake.database.util.user.DbUserMail;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Chat;
 import de.timesnake.library.extension.util.chat.Code;
-import de.timesnake.library.extension.util.cmd.ChatDivider;
+import net.kyori.adventure.text.Component;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
-import net.kyori.adventure.text.Component;
 
 public class MailHandler {
 
@@ -51,7 +52,7 @@ public class MailHandler {
 
   public void printMails() {
     Collection<DbUserMail> mails = this.sender.getUser().getDatabase().getMails();
-    if (mails.size() == 0) {
+    if (mails.isEmpty()) {
       sender.sendPluginMessage(Component.text("You have no mails", ExTextColor.WARNING));
       return;
     }
@@ -69,9 +70,9 @@ public class MailHandler {
     if (mail != null) {
       this.sender.sendPluginMessage(Component.text("Mail ", ExTextColor.PERSONAL)
           .append(Component.text(mail.getId(), ExTextColor.VALUE)));
-      this.sender.sendMessage(ChatDivider.COLORED_SPLITTER
+      this.sender.sendMessage(Chat.COLORED_SPLITTER
           .append(Component.text(mail.getSenderName(), ExTextColor.VALUE))
-          .append(ChatDivider.SPLITTER)
+          .append(Chat.SPLITTER)
           .append(Component.text(mail.getMessage(), ExTextColor.VALUE)));
     } else {
       this.sender.sendMessageNotExist(String.valueOf(mail.getId()), this.mailNotExists, "Id");
@@ -86,9 +87,9 @@ public class MailHandler {
       this.sender.sendPluginMessage(Component.text("Send mail:", ExTextColor.PERSONAL));
       DbUserMail mail = this.sender.getUser().getDatabase().getMail(this.id);
       if (mail != null) {
-        this.sender.sendMessage(ChatDivider.COLORED_IN
+        this.sender.sendMessage(Chat.COLORED_IN
             .append(Component.text(mail.getName(), ExTextColor.VALUE))
-            .append(ChatDivider.SPLITTER)
+            .append(Chat.SPLITTER)
             .append(Component.text(mail.getMessage(), ExTextColor.VALUE)));
 
         User receiverUser = Network.getUser(receiverUuid);
@@ -131,7 +132,7 @@ public class MailHandler {
     }
     this.sender = user.getAsSender(Plugin.MAILS);
     Collection<DbUserMail> mails = this.sender.getUser().getDatabase().getMails();
-    if (mails.size() > 0) {
+    if (!mails.isEmpty()) {
       sender.sendPluginMessage(Component.text("You have ", ExTextColor.PERSONAL)
           .append(Component.text(mails.size(), ExTextColor.VALUE))
           .append(Component.text(" mails", ExTextColor.PERSONAL)));

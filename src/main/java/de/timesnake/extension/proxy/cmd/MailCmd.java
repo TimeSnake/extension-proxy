@@ -4,23 +4,20 @@
 
 package de.timesnake.extension.proxy.cmd;
 
-import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
+import de.timesnake.basic.proxy.util.chat.CommandListener;
+import de.timesnake.basic.proxy.util.chat.Completion;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.database.util.Database;
-import de.timesnake.library.extension.util.chat.Plugin;
-import de.timesnake.library.extension.util.cmd.Arguments;
-import de.timesnake.library.extension.util.cmd.CommandListener;
-import de.timesnake.library.extension.util.cmd.ExCommand;
-import java.util.List;
+import de.timesnake.library.commands.PluginCommand;
+import de.timesnake.library.commands.simple.Arguments;
+
 import java.util.UUID;
 
-public class MailCmd implements CommandListener<Sender, Argument> {
-
+public class MailCmd implements CommandListener {
 
   @Override
-  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
+  public void onCommand(Sender sender, PluginCommand cmd, Arguments<Argument> args) {
     MailHandler mailer = new MailHandler(sender);
 
     if (!sender.isPlayer(true)) {
@@ -81,20 +78,14 @@ public class MailCmd implements CommandListener<Sender, Argument> {
   }
 
   @Override
-  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
-    int length = args.getLength();
-    if (length == 1) {
-      return List.of("send", "show", "delete");
-    }
-    if (length == 2) {
-      return Network.getCommandManager().getPlayerNames();
-    }
-    return null;
+  public Completion getTabCompletion() {
+    return new Completion()
+        .addArgument(new Completion("send", "show", "delete")
+            .addArgument(Completion.ofPlayerNames()));
   }
 
   @Override
-  public void loadCodes(Plugin plugin) {
-
+  public String getPermission() {
+    return null;
   }
 }
