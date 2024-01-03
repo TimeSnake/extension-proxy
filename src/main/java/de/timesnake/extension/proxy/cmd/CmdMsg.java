@@ -6,32 +6,32 @@ package de.timesnake.extension.proxy.cmd;
 
 import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
+import de.timesnake.basic.proxy.util.chat.CommandListener;
+import de.timesnake.basic.proxy.util.chat.Completion;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.library.basic.util.Loggers;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.commands.PluginCommand;
+import de.timesnake.library.commands.simple.Arguments;
 import de.timesnake.library.extension.util.chat.Chat;
 import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.chat.Plugin;
-import de.timesnake.library.extension.util.cmd.Arguments;
-import de.timesnake.library.extension.util.cmd.ChatDivider;
-import de.timesnake.library.extension.util.cmd.CommandListener;
-import de.timesnake.library.extension.util.cmd.ExCommand;
-import java.util.HashMap;
-import java.util.List;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
-public class CmdMsg implements CommandListener<Sender, Argument> {
+import java.util.HashMap;
+
+public class CmdMsg implements CommandListener {
 
   public static void sendMessageToListeners(User sender, User receiver, String msg) {
     Component holeMsg = Chat.getSenderPlugin(
             de.timesnake.basic.proxy.util.chat.Plugin.PRIVATE_MESSAGES)
         .append(sender.getChatNameComponent())
-        .append(Component.text(" " + ChatDivider.COLORED_IN))
+        .append(Component.text(" " + Chat.COLORED_IN))
         .append(receiver.getChatNameComponent())
-        .append(Component.text(ChatDivider.SPLITTER + " "))
+        .append(Component.text(Chat.SPLITTER + " "))
         .append(Component.text(msg, ExTextColor.PERSONAL));
 
     for (User user : Network.getPrivateMessageListeners()) {
@@ -43,11 +43,10 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
 
   public static HashMap<User, User> lastPrivateMessageSender = new HashMap<>();
 
-  private Code perm;
+  private final Code perm = Plugin.NETWORK.createPermssionCode("network.msg.msg");
 
   @Override
-  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
+  public void onCommand(Sender sender, PluginCommand cmd, Arguments<Argument> args) {
     if (sender.hasPermission(this.perm)) {
       if (args.isLengthHigherEquals(2, true)) {
         if (args.get(0).isPlayerName(true) && sender.isPlayer(true)) {
@@ -56,16 +55,16 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
 
           if (!sender.getUser().equals(receiver)) {
             sender.sendMessage(receiver.getChatNameComponent()
-                .append(ChatDivider.COLORED_OUT)
+                .append(Chat.COLORED_OUT)
                 .append(Component.text(msg, ExTextColor.PERSONAL)));
 
             receiver.sendMessage(sender.getUser().getChatNameComponent()
-                .append(ChatDivider.COLORED_IN)
+                .append(Chat.COLORED_IN)
                 .append(Component.text(msg, ExTextColor.PERSONAL)));
             receiver.playSound(ChannelUserMessage.Sound.PLING);
           } else {
             sender.sendMessage(receiver.getChatNameComponent()
-                .append(ChatDivider.COLORED_OUT_IN)
+                .append(Chat.COLORED_OUT_IN)
                 .append(Component.text(msg, ExTextColor.PERSONAL)));
             receiver.playSound(ChannelUserMessage.Sound.PLING);
           }
@@ -79,16 +78,13 @@ public class CmdMsg implements CommandListener<Sender, Argument> {
   }
 
   @Override
-  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
-    if (args.getLength() == 1) {
-      return Network.getCommandManager().getPlayerNames();
-    }
-    return List.of();
+  public Completion getTabCompletion() {
+    return new Completion(this.perm)
+        .addArgument(Completion.ofPlayerNames());
   }
 
   @Override
-  public void loadCodes(Plugin plugin) {
-    this.perm = plugin.createPermssionCode("network.msg.msg");
+  public String getPermission() {
+    return this.perm.getPermission();
   }
 }

@@ -4,29 +4,22 @@
 
 package de.timesnake.extension.proxy.cmd;
 
-import de.timesnake.basic.proxy.util.Network;
-import de.timesnake.basic.proxy.util.chat.Argument;
-import de.timesnake.basic.proxy.util.chat.Plugin;
-import de.timesnake.basic.proxy.util.chat.Sender;
+import de.timesnake.basic.proxy.util.chat.*;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.commands.PluginCommand;
+import de.timesnake.library.commands.simple.Arguments;
 import de.timesnake.library.extension.util.chat.Chat;
 import de.timesnake.library.extension.util.chat.Code;
-import de.timesnake.library.extension.util.cmd.Arguments;
-import de.timesnake.library.extension.util.cmd.ChatDivider;
-import de.timesnake.library.extension.util.cmd.CommandListener;
-import de.timesnake.library.extension.util.cmd.ExCommand;
-import java.util.List;
 import net.kyori.adventure.text.Component;
 
-public class CmdResponse implements CommandListener<Sender, Argument> {
+public class CmdResponse implements CommandListener {
 
-  private Code perm;
+  private final Code perm = Plugin.NETWORK.createPermssionCode("exproxy.msg.response");
 
   @Override
-  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
+  public void onCommand(Sender sender, PluginCommand cmd, Arguments<Argument> args) {
     if (args.isLengthHigherEquals(1, true)) {
       if (sender.hasPermission(this.perm)) {
         if (sender.isPlayer(true)) {
@@ -36,16 +29,16 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
 
             if (!sender.getUser().equals(receiver)) {
               sender.sendMessage(receiver.getChatNameComponent()
-                  .append(ChatDivider.COLORED_OUT)
+                  .append(Chat.COLORED_OUT)
                   .append(Component.text(msg, ExTextColor.VALUE)));
 
               receiver.sendMessage(sender.getUser().getChatNameComponent()
-                  .append(ChatDivider.COLORED_IN)
+                  .append(Chat.COLORED_IN)
                   .append(Component.text(msg, ExTextColor.VALUE)));
               receiver.playSound(ChannelUserMessage.Sound.PLING);
             } else {
               sender.sendMessage(receiver.getChatNameComponent()
-                  .append(ChatDivider.COLORED_OUT_IN)
+                  .append(Chat.COLORED_OUT_IN)
                   .append(Component.text(msg, ExTextColor.VALUE)));
               receiver.playSound(ChannelUserMessage.Sound.PLING);
             }
@@ -62,16 +55,13 @@ public class CmdResponse implements CommandListener<Sender, Argument> {
   }
 
   @Override
-  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
-    if (args.getLength() == 1) {
-      return Network.getCommandManager().getPlayerNames();
-    }
-    return List.of();
+  public Completion getTabCompletion() {
+    return new Completion(this.perm)
+        .addArgument(Completion.ofPlayerNames());
   }
 
   @Override
-  public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
-    this.perm = plugin.createPermssionCode("exproxy.msg.response");
+  public String getPermission() {
+    return this.perm.getPermission();
   }
 }

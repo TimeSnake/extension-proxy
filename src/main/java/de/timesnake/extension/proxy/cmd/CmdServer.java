@@ -5,27 +5,22 @@
 package de.timesnake.extension.proxy.cmd;
 
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import de.timesnake.basic.proxy.util.Network;
-import de.timesnake.basic.proxy.util.chat.Argument;
-import de.timesnake.basic.proxy.util.chat.Plugin;
-import de.timesnake.basic.proxy.util.chat.Sender;
+import de.timesnake.basic.proxy.util.chat.*;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.extension.proxy.main.ExProxy;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.commands.PluginCommand;
+import de.timesnake.library.commands.simple.Arguments;
 import de.timesnake.library.extension.util.chat.Code;
-import de.timesnake.library.extension.util.cmd.Arguments;
-import de.timesnake.library.extension.util.cmd.CommandListener;
-import de.timesnake.library.extension.util.cmd.ExCommand;
-import java.util.List;
 import net.kyori.adventure.text.Component;
 
-public class CmdServer implements CommandListener<Sender, Argument> {
+public class CmdServer implements CommandListener {
 
-  private Code perm;
-  private Code otherPerm;
+  private final Code perm = Plugin.NETWORK.createPermssionCode("exproxy.server.switch");
+  private final Code otherPerm = Plugin.NETWORK.createPermssionCode("exproxy.server.switch.other");
 
   @Override
-  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+  public void onCommand(Sender sender, PluginCommand cmd,
       Arguments<Argument> args) {
     if (args.isLengthHigherEquals(1, true)) {
       if (args.get(0).isServerName(true)) {
@@ -75,23 +70,14 @@ public class CmdServer implements CommandListener<Sender, Argument> {
   }
 
   @Override
-  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
-    if (args.getLength() == 1) {
-      return Network.getCommandManager().getServerNames();
-    }
-
-    if (args.getLength() == 2) {
-      return Network.getCommandManager().getPlayerNames();
-    }
-    return null;
+  public Completion getTabCompletion() {
+    return new Completion(this.perm)
+        .addArgument(Completion.ofServerNames()
+            .addArgument(Completion.ofPlayerNames().permission(this.otherPerm)));
   }
 
   @Override
-  public void loadCodes(de.timesnake.library.extension.util.chat.Plugin plugin) {
-    this.perm = plugin.createPermssionCode("exproxy.server.switch");
-    this.otherPerm = plugin.createPermssionCode("exproxy.server.switch.other");
+  public String getPermission() {
+    return this.perm.getPermission();
   }
-
-
 }

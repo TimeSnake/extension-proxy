@@ -4,47 +4,29 @@
 
 package de.timesnake.extension.proxy.cmd;
 
-import de.timesnake.basic.proxy.util.Network;
 import de.timesnake.basic.proxy.util.chat.Argument;
+import de.timesnake.basic.proxy.util.chat.CommandListener;
+import de.timesnake.basic.proxy.util.chat.Completion;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.library.basic.util.Loggers;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.commands.PluginCommand;
+import de.timesnake.library.commands.simple.Arguments;
 import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.chat.Plugin;
-import de.timesnake.library.extension.util.cmd.Arguments;
-import de.timesnake.library.extension.util.cmd.CommandListener;
-import de.timesnake.library.extension.util.cmd.ExCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
-public class CmdWarn implements CommandListener<Sender, Argument> {
+public class CmdWarn implements CommandListener {
 
-  public static Type getTypeByName(String name) {
-    for (Type type : Type.values()) {
-      if (type.getName().equalsIgnoreCase(name)) {
-        return type;
-      }
-    }
-    return null;
-  }
-
-  public static List<String> getTypeNames() {
-    List<String> names = new ArrayList<>();
-    for (Type type : Type.values()) {
-      names.add(type.getName());
-    }
-    return names;
-  }
-
-  private Code perm;
-  private Code typeNotExists;
+  private final Code perm = Plugin.NETWORK.createPermssionCode("exproxy.warn");
+  private final Code typeNotExists = Plugin.NETWORK.createHelpCode("Warn-Type not exists");
 
   @Override
-  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+  public void onCommand(Sender sender, PluginCommand cmd, Arguments<Argument> args) {
     if (!sender.hasPermission(this.perm)) {
       return;
     }
@@ -63,7 +45,7 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
       return;
     }
 
-    Type type = getTypeByName(args.getString(1));
+    Type type = Arrays.stream(Type.values()).filter(t -> t.getName().equalsIgnoreCase(args.getString(1))).findFirst().orElse(null);
 
     if (type == null) {
       sender.sendMessageNotExist(args.getString(1), this.typeNotExists, "warn type");
@@ -83,19 +65,15 @@ public class CmdWarn implements CommandListener<Sender, Argument> {
   }
 
   @Override
-  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
-    if (args.getLength() == 1) {
-      return Network.getCommandManager().getPlayerNames();
-    } else if (args.getLength() == 2) {
-      return getTypeNames();
-    }
-    return List.of();
+  public Completion getTabCompletion() {
+    return new Completion(this.perm)
+        .addArgument(Completion.ofPlayerNames()
+            .addArgument(new Completion(Arrays.stream(Type.values()).map(Type::getName).toList())));
   }
 
   @Override
-  public void loadCodes(Plugin plugin) {
-    this.perm = plugin.createPermssionCode("exproxy.warn");
-    this.typeNotExists = plugin.createHelpCode("Warn-Type not exists");
+  public String getPermission() {
+    return this.perm.getPermission();
   }
 
   enum Type {
