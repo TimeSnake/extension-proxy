@@ -8,10 +8,10 @@ import com.velocitypowered.api.proxy.server.RegisteredServer;
 import de.timesnake.basic.proxy.util.chat.*;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.extension.proxy.main.ExProxy;
+import de.timesnake.library.chat.Code;
 import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.commands.PluginCommand;
 import de.timesnake.library.commands.simple.Arguments;
-import de.timesnake.library.extension.util.chat.Code;
 import net.kyori.adventure.text.Component;
 
 public class CmdServer implements CommandListener {
