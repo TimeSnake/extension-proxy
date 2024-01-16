@@ -8,8 +8,7 @@ plugins {
 
 
 group = "de.timesnake"
-version = '1.2'
-archivesBaseName = 'extension-proxy'
+version = '1.3.0'
 var projectId = 28
 
 repositories {
@@ -29,18 +28,18 @@ repositories {
 }
 
 dependencies {
-  compileOnly "de.timesnake:basic-proxy:1.3.1"
+  compileOnly "de.timesnake:basic-proxy:1.+"
 
-  compileOnly "de.timesnake:database-proxy:2.2.2"
-  compileOnly "de.timesnake:database-api:2.2.2"
+  compileOnly "de.timesnake:database-proxy:2.+"
+  compileOnly "de.timesnake:database-api:2.+"
 
-  compileOnly "de.timesnake:channel-proxy:3.0.6"
-  compileOnly "de.timesnake:channel-api:3.0.6"
+  compileOnly "de.timesnake:channel-proxy:3.+"
+  compileOnly "de.timesnake:channel-api:3.+"
 
-  compileOnly "de.timesnake:library-commands:1.0"
-  compileOnly "de.timesnake:library-permissions:1.0"
-  compileOnly "de.timesnake:library-basic:1.2.2"
-  compileOnly "de.timesnake:library-chat:1.1"
+  compileOnly "de.timesnake:library-commands:1.+"
+  compileOnly "de.timesnake:library-permissions:1.+"
+  compileOnly "de.timesnake:library-basic:1.+"
+  compileOnly "de.timesnake:library-chat:1.+"
 
   compileOnly "com.velocitypowered:velocity-api:3.1.1"
   annotationProcessor "com.velocitypowered:velocity-api:3.1.1"
