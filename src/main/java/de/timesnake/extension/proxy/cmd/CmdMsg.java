@@ -11,7 +11,6 @@ import de.timesnake.basic.proxy.util.chat.Completion;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
 import de.timesnake.channel.util.message.ChannelUserMessage;
-import de.timesnake.library.basic.util.Loggers;
 import de.timesnake.library.chat.Chat;
 import de.timesnake.library.chat.Code;
 import de.timesnake.library.chat.ExTextColor;
@@ -20,10 +19,14 @@ import de.timesnake.library.commands.PluginCommand;
 import de.timesnake.library.commands.simple.Arguments;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
 public class CmdMsg implements CommandListener {
+
+  private static final Logger LOGGER = LogManager.getLogger("network.private-message");
 
   public static void sendMessageToListeners(User sender, User receiver, String msg) {
     Component holeMsg = Chat.getSenderPlugin(
@@ -38,7 +41,7 @@ public class CmdMsg implements CommandListener {
       user.sendMessage(holeMsg);
     }
 
-    Loggers.PRIVATE_MESSAGES.info(PlainTextComponentSerializer.plainText().serialize(holeMsg));
+    LOGGER.info(PlainTextComponentSerializer.plainText().serialize(holeMsg));
   }
 
   public static HashMap<User, User> lastPrivateMessageSender = new HashMap<>();
