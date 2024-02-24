@@ -9,7 +9,6 @@ import de.timesnake.basic.proxy.util.chat.CommandListener;
 import de.timesnake.basic.proxy.util.chat.Completion;
 import de.timesnake.basic.proxy.util.chat.Sender;
 import de.timesnake.basic.proxy.util.user.User;
-import de.timesnake.library.basic.util.Loggers;
 import de.timesnake.library.chat.Code;
 import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.chat.Plugin;
@@ -17,10 +16,14 @@ import de.timesnake.library.commands.PluginCommand;
 import de.timesnake.library.commands.simple.Arguments;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
 public class CmdWarn implements CommandListener {
+
+  private final Logger logger = LogManager.getLogger("punish.warn");
 
   private final Code perm = Plugin.NETWORK.createPermssionCode("exproxy.warn");
   private final Code typeNotExists = Plugin.NETWORK.createHelpCode("Warn-Type not exists");
@@ -61,7 +64,7 @@ public class CmdWarn implements CommandListener {
 
     sender.sendPluginMessage(Component.text("Warned player ", ExTextColor.PERSONAL).append(user.getChatNameComponent()));
     user.sendPluginMessage(Plugin.SYSTEM, Component.text(type.getText(), ExTextColor.WARNING));
-    Loggers.PUNISH.info("'" + sender.getChatName() + "' warned '" + user.getChatNameComponent() + "': " + type.getName());
+    this.logger.info("'{}' warned '{}': {}", sender.getChatName(), user.getChatNameComponent(), type.getName());
   }
 
   @Override
