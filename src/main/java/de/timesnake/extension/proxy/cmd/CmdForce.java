@@ -14,11 +14,9 @@ import de.timesnake.channel.util.message.ChannelUserMessage;
 import de.timesnake.channel.util.message.MessageType;
 import de.timesnake.extension.proxy.main.ExProxy;
 import de.timesnake.library.chat.Code;
-import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.chat.Plugin;
 import de.timesnake.library.commands.PluginCommand;
 import de.timesnake.library.commands.simple.Arguments;
-import net.kyori.adventure.text.Component;
 
 public class CmdForce implements CommandListener {
 
@@ -26,36 +24,31 @@ public class CmdForce implements CommandListener {
 
   @Override
   public void onCommand(Sender sender, PluginCommand cmd, Arguments<Argument> args) {
-    if (sender.hasPermission(this.perm)) {
-      if (args.isLengthHigherEquals(2, true)) {
-        if (args.get(0).isPlayerName(true)) {
-          User user = args.get(0).toUser();
-          if (sender.hasGroupRankLower(user.getUniqueId())) {
-            if (args.get(1).getString().startsWith("/")) {
-              String msg = args.toMessage(1);
+    sender.hasPermissionElseExit(this.perm);
+    args.isLengthHigherEqualsElseExit(2, true);
+    args.get(0).assertElseExit(a -> a.isPlayerName(true));
 
-              ExProxy.getServer().getCommandManager().executeAsync(user.getPlayer(), msg);
+    User user = args.get(0).toUser();
+    sender.hasGroupRankLowerElseExit(user.getUniqueId(), true);
 
-              Network.getChannel()
-                  .sendMessage(new ChannelUserMessage<>(user.getUniqueId(), MessageType.User.COMMAND, msg));
-              sender.sendPluginMessage(Component.text("Forced player ", ExTextColor.PERSONAL)
-                      .append(user.getChatNameComponent())
-                  .append(Component.text(" to execute command ", ExTextColor.PERSONAL))
-                      .append(Component.text(msg, ExTextColor.VALUE)));
-            } else {
-              sender.sendPluginMessage(Component.text("Only command are permitted", ExTextColor.PERSONAL));
-              sender.sendPluginMessage(Component.text("Use /say to force a chat message", ExTextColor.PERSONAL));
-            }
-          }
-        }
-      }
+    if (!args.get(1).getString().startsWith("/")) {
+      sender.sendPluginTDMessage("§wOnly command are permitted");
+      sender.sendPluginTDMessage("§wUse /say to force a chat message");
     }
+
+    String text = args.toMessage(1);
+
+    ExProxy.getServer().getCommandManager().executeAsync(user.getPlayer(), text);
+
+    Network.getChannel().sendMessage(new ChannelUserMessage<>(user.getUniqueId(), MessageType.User.COMMAND, text));
+    sender.sendPluginTDMessage("§sForced player §v" + user.getChatName() + "§s to execute command §v" + text);
   }
 
   @Override
   public Completion getTabCompletion() {
     return new Completion(this.perm)
-        .addArgument(Completion.ofPlayerNames());
+        .addArgument(Completion.ofPlayerNames()
+            .addArgument(new Completion("/say", "/<cmd>")));
   }
 
   @Override
