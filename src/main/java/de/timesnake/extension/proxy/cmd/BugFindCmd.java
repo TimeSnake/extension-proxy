@@ -15,7 +15,7 @@ import net.kyori.adventure.text.Component;
 
 public class BugFindCmd implements CommandListener {
 
-  private static final float REWARD = 20;
+  private static final float REWARD = 21;
 
   private final Code perm = Plugin.NETWORK.createPermssionCode("network.bugfind");
 
