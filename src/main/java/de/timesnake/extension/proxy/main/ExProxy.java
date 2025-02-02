@@ -62,32 +62,32 @@ public class ExProxy {
     plugin = this;
 
     Network.getCommandManager().addCommand(this, "service", new CmdService(),
-        de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        de.timesnake.library.chat.Plugin.NETWORK);
     Network.getCommandManager().addCommand(this, "msgx", new CmdMsgSpy(),
-        de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        de.timesnake.library.chat.Plugin.NETWORK);
     Network.getCommandManager()
         .addCommand(this, "msg", List.of("tell", "message", "pm"), new CmdMsg(),
-            de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+            de.timesnake.library.chat.Plugin.NETWORK);
     Network.getCommandManager().addCommand(this, "r", List.of("response"), new CmdResponse(),
-        de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        de.timesnake.library.chat.Plugin.NETWORK);
     Network.getCommandManager().addCommand(this, "force", List.of("sudo"), new CmdForce(),
-        de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        de.timesnake.library.chat.Plugin.NETWORK);
     Network.getCommandManager()
         .addCommand(this, "lobby", List.of("l", "hub", "menu", "leave"), new CmdLobby(),
-            de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+            de.timesnake.library.chat.Plugin.NETWORK);
     Network.getCommandManager().addCommand(this, "server", new CmdServer(),
-        de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        de.timesnake.library.chat.Plugin.NETWORK);
     Network.getCommandManager().addCommand(this, "switch", new CmdServer(),
-        de.timesnake.basic.proxy.util.chat.Plugin.NETWORK);
+        de.timesnake.library.chat.Plugin.NETWORK);
 
     Network.getCommandManager().addCommand(this, "mail", new MailCmd(),
-        de.timesnake.basic.proxy.util.chat.Plugin.MAILS);
+        de.timesnake.library.chat.Plugin.MAILS);
     Network.getCommandManager().addCommand(this, "broadcast", new BroadcastCmd(),
         de.timesnake.library.chat.Plugin.NETWORK);
     Network.getCommandManager().addCommand(this, "warn", new CmdWarn(),
-        de.timesnake.library.chat.Plugin.SYSTEM);
+        de.timesnake.library.chat.Plugin.SERVER);
     Network.getCommandManager().addCommand(this, "ping", new PingCmd(),
-        de.timesnake.library.chat.Plugin.SYSTEM);
+        de.timesnake.library.chat.Plugin.SERVER);
 
     Network.getCommandManager().addCommand(this, "bugfind", new BugFindCmd(),
         de.timesnake.library.chat.Plugin.NETWORK);
