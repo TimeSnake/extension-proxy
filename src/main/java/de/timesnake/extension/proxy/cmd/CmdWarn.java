@@ -63,7 +63,7 @@ public class CmdWarn implements CommandListener {
     }
 
     sender.sendPluginMessage(Component.text("Warned player ", ExTextColor.PERSONAL).append(user.getChatNameComponent()));
-    user.sendPluginMessage(Plugin.SYSTEM, Component.text(type.getText(), ExTextColor.WARNING));
+    user.sendPluginMessage(Plugin.SERVER, Component.text(type.getText(), ExTextColor.WARNING));
     this.logger.info("'{}' warned '{}': {}", sender.getChatName(), user.getChatNameComponent(), type.getName());
   }
 

@@ -29,8 +29,7 @@ public class CmdMsg implements CommandListener {
   private static final Logger LOGGER = LogManager.getLogger("network.private-message");
 
   public static void sendMessageToListeners(User sender, User receiver, String msg) {
-    Component holeMsg = Chat.getSenderPlugin(
-            de.timesnake.basic.proxy.util.chat.Plugin.PRIVATE_MESSAGES)
+    Component holeMsg = Chat.getSenderPlugin(Plugin.PRIVATE_MESSAGES)
         .append(sender.getChatNameComponent())
         .append(Component.text(" " + Chat.COLORED_IN))
         .append(receiver.getChatNameComponent())
