@@ -48,7 +48,7 @@ public class CmdForce implements CommandListener {
   public Completion getTabCompletion() {
     return new Completion(this.perm)
         .addArgument(Completion.ofPlayerNames()
-            .addArgument(new Completion("/say", "/<cmd>")));
+            .addArgument(new Completion("/say", "/<cmd>").allowAny()));
   }
 
   @Override
