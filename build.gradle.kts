@@ -8,7 +8,7 @@ plugins {
 
 
 group = "de.timesnake"
-version = "2.0.0"
+version = "3.0.0"
 var projectId = 28
 
 repositories {
@@ -24,55 +24,33 @@ repositories {
     }
 }
 
-dependencies {
-    compileOnly("de.timesnake:basic-proxy:2.+")
-
-    compileOnly("de.timesnake:database-proxy:4.+")
-    compileOnly("de.timesnake:database-api:4.+")
-
-    compileOnly("de.timesnake:channel-proxy:5.+")
-    compileOnly("de.timesnake:channel-api:5.+")
-
-    compileOnly("de.timesnake:library-commands:2.+")
-    compileOnly("de.timesnake:library-permissions:2.+")
-    compileOnly("de.timesnake:library-basic:2.+")
-    compileOnly("de.timesnake:library-chat:2.+")
-
-    compileOnly("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
-    annotationProcessor("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
-
-    compileOnly("org.apache.logging.log4j:log4j-api:2.22.1")
-    compileOnly("org.apache.logging.log4j:log4j-core:2.22.1")
+val pluginImplementation: Configuration by configurations.creating
+val pluginFile = layout.buildDirectory.file("libs/${project.name}-${project.version}-plugin.jar")
+val pluginArtifact = artifacts.add("pluginImplementation", pluginFile.get().asFile) {
+    builtBy("pluginJar")
 }
 
-configurations.configureEach {
-    resolutionStrategy.dependencySubstitution {
-        if (project.parent != null) {
-            substitute(module("de.timesnake:basic-proxy")).using(project(":cores:basic-proxy"))
+dependencies {
+    api("de.timesnake:basic-proxy:3.+")
 
-            substitute(module("de.timesnake:database-proxy")).using(project(":database:database-proxy"))
-            substitute(module("de.timesnake:database-api")).using(project(":database:database-api"))
+    implementation("org.apache.logging.log4j:log4j-api:2.22.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.22.1")
 
-            substitute(module("de.timesnake:channel-proxy")).using(project(":channel:channel-proxy"))
-            substitute(module("de.timesnake:channel-api")).using(project(":channel:channel-api"))
+    implementation("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
+}
 
-            substitute(module("de.timesnake:library-commands")).using(project(":libraries:library-commands"))
-            substitute(module("de.timesnake:library-permissions")).using(project(":libraries:library-permissions"))
-            substitute(module("de.timesnake:library-basic")).using(project(":libraries:library-basic"))
-            substitute(module("de.timesnake:library-chat")).using(project(":libraries:library-chat"))
+configurations.all {
+    resolutionStrategy.dependencySubstitution.all {
+        requested.let {
+            if (it is ModuleComponentSelector && it.group == "de.timesnake") {
+                val targetProject = findProject(":${it.module}")
+                if (targetProject != null) {
+                    useTarget(targetProject)
+                }
+            }
         }
     }
-}
-
-tasks.register<Copy>("exportAsPlugin") {
-    from(layout.buildDirectory.file("libs/${project.name}-${project.version}-all.jar"))
-    into(findProperty("timesnakePluginDir") ?: "")
-
-    dependsOn("shadowJar")
-}
-
-tasks.withType<PublishToMavenRepository> {
-    dependsOn("shadowJar")
 }
 
 publishing {
@@ -86,9 +64,30 @@ publishing {
 
     publications {
         create<MavenPublication>("maven") {
-            from(components["java"])
+            artifacts {
+                from(components["java"])
+                artifact(pluginArtifact)
+            }
         }
     }
+}
+
+tasks.register<Jar>("pluginJar") {
+    from(pluginImplementation.map { if (it.isDirectory) it else zipTree(it) })
+    with(tasks.jar.get() as CopySpec)
+    archiveClassifier = "plugin"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    dependsOn("shadowJar", "assemble")
+}
+
+tasks.register<Copy>("exportPluginJar") {
+    from(pluginFile)
+    into(findProperty("timesnakePluginDir") ?: "")
+    dependsOn("pluginJar")
+}
+
+tasks.withType<PublishToMavenRepository> {
+    dependsOn("shadowJar", "pluginJar")
 }
 
 tasks {
